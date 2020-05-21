@@ -6,8 +6,11 @@ import view.panel.TransparentPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class LoginPage extends JLabel {
@@ -92,28 +95,45 @@ public class LoginPage extends JLabel {
 
     }
 
-    private void initRegisterButton(){
-        registerButton = new JButton("Register");
-        registerButton.setBounds(40,400,320,30);
-        registerButton.setBackground(Color.CYAN);
+    private void initRegisterButton() {
+        registerButton = new JButton("Go to Register Page");
+        registerButton.setBounds(125, 450, 150, 30);
+        registerButton.setOpaque(false);
+        registerButton.setContentAreaFilled(false);
+        registerButton.setBorderPainted(false);
         transparentPanel.add(registerButton);
 
 
+        Map<TextAttribute, Integer> attributes = new HashMap<>();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        Font underline = new Font("Dialog", Font.BOLD, 12).deriveFont(attributes);
+        Font noUnderline = new Font("Dialog", Font.PLAIN, 12);
+        registerButton.setFont(noUnderline);
+       // registerButton.setForeground(Color.red);
 
-        registerButton.addMouseMotionListener(new MouseMotionListener() {
+
+
+        registerButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e) {
+            public void mouseEntered(MouseEvent e) {
+
                 registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                registerButton.setFont(underline);
             }
 
             @Override
-            public void mouseMoved(MouseEvent e) {
+            public void mouseExited(MouseEvent e) {
+                registerButton.setFont(noUnderline);
                 registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                registerButton.setFocusable(false);
             }
         });
     }
-
-
 
     public boolean validCredential(){
         if(usernameField != null){

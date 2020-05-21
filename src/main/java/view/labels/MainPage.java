@@ -189,7 +189,7 @@ class ButtonRenderer extends JButton implements TableCellRenderer
 
 
     public ButtonRenderer() {
-        
+
         this.setBounds(0, 0, 25,25);
         Image image = new ImageIcon("./src/main/resources/icons/red.png")
                 .getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
