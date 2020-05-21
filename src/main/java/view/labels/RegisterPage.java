@@ -1,14 +1,15 @@
 package view.labels;
 
-import AppPackage.AnimationClass;
 import controller.AuditController;
 import controller.PersonController;
 import models.Audit;
 import models.Person;
+import util.MouseAction;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -30,7 +31,7 @@ public class RegisterPage extends JLabel {
     private int width = 1125;
     private int height = 750;
     private JPanel transparentPanel;
-    private AnimationClass slideEfect  = new AnimationClass();
+    private MouseListener mouseAction = new MouseAction();
 
     public RegisterPage() {
         this.setBounds(0,-1100,width, height);
@@ -46,7 +47,6 @@ public class RegisterPage extends JLabel {
         initEmailAdressField();
         initLoginButton();
         initRegisterButton();
-
 
     }
 
@@ -129,29 +129,23 @@ public class RegisterPage extends JLabel {
     }
 
     private void initLoginButton(){
-        loginButton = new JButton("Login");
-        loginButton.setBounds(40,350,320,30);
-        loginButton.setBackground(Color.YELLOW);
+        Font noUnderline = new Font("Dialog", Font.PLAIN, 12);
+        loginButton = new JButton("Go To Login Page");
+        loginButton.setBounds(130,450,140,30);
+        loginButton.setOpaque(false);
+        loginButton.setContentAreaFilled(false);
+        loginButton.setBorderPainted(false);
         transparentPanel.add(loginButton);
-
-//        loginButton.addActionListener(e -> CentralFrame.getInstance().getTimer2().start());
+        loginButton.setFont(noUnderline);
+        loginButton.addMouseListener(mouseAction);
     }
 
     private void initRegisterButton(){
         registerButton = new JButton("Register");
-        registerButton.setBounds(40,400,320,30);
+        registerButton.setBounds(40,350,320,30);
         registerButton.setBackground(Color.CYAN);
         registerButton.setActionCommand(" account created on: ");
         transparentPanel.add(registerButton);
-//
-//        registerButton.addActionListener(e -> {
-//            if(validRegisterFields()){
-//                addUsername();
-//                //TODO  - lasam central frame singleton
-//                CentralFrame.getInstance().getTimer2().start();
-//            }
-//
-//        });
     }
 
     public void addUsername(){

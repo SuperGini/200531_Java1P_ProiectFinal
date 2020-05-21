@@ -279,7 +279,8 @@ public class CentralFrame extends JFrame {
         backgroundLabel.add(backButton);
         backButton.addActionListener(e -> letsGoBack());
     }
-    
+    //todo de rezolvat bug backbutton cand dau back si foward si iar back
+    // nu o ia de la ultima pagina afisata ci de unde a ramas contorul
     public void letsGoBack(){
 
         int lastIndex = labelsBackButton.size() - count -1;

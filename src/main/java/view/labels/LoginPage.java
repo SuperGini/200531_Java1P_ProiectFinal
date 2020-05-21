@@ -2,15 +2,12 @@ package view.labels;
 
 import controller.PersonController;
 import models.Person;
+import util.MouseAction;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.event.MouseListener;
 import java.util.Optional;
 
 public class LoginPage extends JLabel {
@@ -26,6 +23,7 @@ public class LoginPage extends JLabel {
     private int width = 1125;
     private int height = 750;
     private JPanel transparentPanel;
+    private MouseListener mouseAction = new MouseAction();
 
     public LoginPage() {
         this.setBounds(0,-1100,width, height);
@@ -96,43 +94,15 @@ public class LoginPage extends JLabel {
     }
 
     private void initRegisterButton() {
+        Font noUnderline = new Font("Dialog", Font.PLAIN, 12);
         registerButton = new JButton("Go to Register Page");
         registerButton.setBounds(125, 450, 150, 30);
         registerButton.setOpaque(false);
         registerButton.setContentAreaFilled(false);
         registerButton.setBorderPainted(false);
         transparentPanel.add(registerButton);
-
-
-        Map<TextAttribute, Integer> attributes = new HashMap<>();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        Font underline = new Font("Dialog", Font.BOLD, 12).deriveFont(attributes);
-        Font noUnderline = new Font("Dialog", Font.PLAIN, 12);
         registerButton.setFont(noUnderline);
-       // registerButton.setForeground(Color.red);
-
-
-
-        registerButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-                registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                registerButton.setFont(underline);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                registerButton.setFont(noUnderline);
-                registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                registerButton.setFocusable(false);
-            }
-        });
+        registerButton.addMouseListener(mouseAction);
     }
 
     public boolean validCredential(){
