@@ -45,7 +45,7 @@ public class LogOutFunction {
             long elapsedMinutes = Duration.between(t1, t2).toMinutes();
             if (elapsedMinutes == 15) {
                 logoutTimer.stop();
-                centralFrame.setMenuBarLogout(centralFrame.getLoginPage());
+                centralFrame. moveTwoLabelsDown(centralFrame.getLoginPage());
             }
             System.out.println(elapsedMinutes);
         }
