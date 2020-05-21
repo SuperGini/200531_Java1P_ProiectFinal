@@ -132,7 +132,7 @@ public class LoadingFrame extends JFrame{
         backgroundLabel1.add(loginButton);
 
         loginButton.addActionListener(e->{
-            CentralFrame.getInstance();
+        //    CentralFrame.getInstance();
             timer3.start();
             dispose();
         });
@@ -140,13 +140,14 @@ public class LoadingFrame extends JFrame{
 
     private void initRegisterButton() {
         registerButton = new JButton("register");
+
         registerButton.setBounds(594, 210, 100, 20);
-      //  registerButton.setForeground(Color.WHITE);
-      //  registerButton.setBackground(new Color(255, 255, 255, 30));
+//        registerButton.setForeground(Color.WHITE);
+//        registerButton.setBackground(new Color(255, 255, 255, 30));
         backgroundLabel1.add(registerButton);
 
         registerButton.addActionListener(e ->{
-            CentralFrame.getInstance();
+         //   CentralFrame.getInstance();
             timer4.start();
             dispose();
         });

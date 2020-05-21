@@ -2,7 +2,7 @@ package view.labels;
 
 import controller.FlightController;
 import models.Flight;
-import view.buttons.MinimizeButton;
+import view.buttons.RedButton;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -189,10 +189,11 @@ class ButtonRenderer extends JButton implements TableCellRenderer
 
 
     public ButtonRenderer() {
-
-        String gif = "./src/main/resources/icons/min.gif";
-        this.setBounds(0, 0, 27,27);
-        ImageIcon imageIcon = new ImageIcon(gif);
+        
+        this.setBounds(0, 0, 25,25);
+        Image image = new ImageIcon("./src/main/resources/icons/red.png")
+                .getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(image);
         this.setContentAreaFilled(false);
         this.setIcon(imageIcon);
         setOpaque(false);
@@ -212,7 +213,7 @@ class ButtonEditor extends DefaultCellEditor{
     public ButtonEditor(JTextField txt) {
         super(txt);
 
-        btn = new MinimizeButton(0,0);
+        btn = new RedButton(0,0);
         btn.setOpaque(true);
 
         btn.addActionListener(e -> {
