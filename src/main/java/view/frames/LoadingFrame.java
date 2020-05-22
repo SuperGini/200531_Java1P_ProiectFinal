@@ -2,12 +2,15 @@ package view.frames;
 
 import AppPackage.AnimationClass;
 import media.SoundPlay;
-import view.buttons.Xbutton;
+import view.buttons.MiniButtons;
 import view.labels.BackgroundLabel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoadingFrame extends JFrame{
 
@@ -15,7 +18,7 @@ public class LoadingFrame extends JFrame{
     private JButton closeButton;
     private JButton loginButton;
     private JButton registerButton;
-    private Xbutton xButton;
+    private MiniButtons xButton;
     private JPanel panel;
 
     private BackgroundLabel backgroundLabel2;
@@ -30,7 +33,6 @@ public class LoadingFrame extends JFrame{
     private int i,j;
 
     private AnimationClass slideEfect = new AnimationClass();
-
     private SoundPlay soundPlay;
 
     public LoadingFrame(){
@@ -154,7 +156,8 @@ public class LoadingFrame extends JFrame{
     }
 
     private void initExitButton(){
-        xButton = new Xbutton(600,0);
+        String filepath = "./src/main/resources/icons/miniGifs/3x.gif";
+        xButton = new MiniButtons(600,0, filepath);
         backgroundLabel1.add(xButton);
         xButton.addActionListener(e-> dispose());
 
@@ -243,7 +246,7 @@ public class LoadingFrame extends JFrame{
         timerLoginRegisterButton.stop();
 
     }
-    //coboara login label
+
     Timer timer3 = new Timer(0, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

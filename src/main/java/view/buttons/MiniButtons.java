@@ -3,9 +3,18 @@ package view.buttons;
 import javax.swing.*;
 import java.awt.*;
 
-public class RedButton extends JButton{
+public class MiniButtons extends JButton {
 
-    public RedButton(int x, int y){
+
+
+    public MiniButtons(int x, int y, String gif){
+        this.setBounds(x, y, 27,27);
+        ImageIcon imageIcon = new ImageIcon(gif);
+        this.setContentAreaFilled(false);
+        this.setIcon(imageIcon);
+    }
+
+    public MiniButtons(int x, int y){
 
         this.setBounds(x, y, 25,25);
         Image image = new ImageIcon("./src/main/resources/icons/red.png")
@@ -15,4 +24,3 @@ public class RedButton extends JButton{
         this.setIcon(imageIcon);
     }
 }
-

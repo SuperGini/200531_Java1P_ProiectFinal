@@ -30,10 +30,11 @@ public class AddFlightsPage extends JLabel {
     private JButton anulateButton;
     private JCheckBox checkBoxButton;
     private String[] days = {"Luni", "Marti", "Miercuri", "Joi", "Vineri", "Samabata", "Duminica"};
-    private MainPage mainPage = MainPage.getInstance();
+
 
     private List<JCheckBox> buttons;
     private List<JLabel> labels;
+    private List<JButton> miniButtons;
 
 
     private int width = 1125;
@@ -154,7 +155,7 @@ public class AddFlightsPage extends JLabel {
     private void initCheckbox() {
         buttons = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            String zi = labels.get(i).getText();
+            String zi = days[i];
             checkBoxButton = new JCheckBox(zi);
             checkBoxButton.setBounds(20, 150 + (i * 25), 20, 20);
             transparentPanel.add(checkBoxButton);
@@ -291,10 +292,10 @@ public class AddFlightsPage extends JLabel {
         boolean flightAdded = FlightController.getInstance().createFlight(flight);
         if (flightAdded) {
 
-            JOptionPane.showMessageDialog(null, "BRAVO BOSSSSSS");
+            JOptionPane.showMessageDialog(null, "Flight added");
 
         } else {
-            JOptionPane.showMessageDialog(null, "nu merge");
+            JOptionPane.showMessageDialog(null, "Can't add flight");
         }
     }
 

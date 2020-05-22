@@ -4,8 +4,7 @@ import AppPackage.AnimationClass;
 import controller.AuditController;
 import media.Picture;
 import util.LogOutFunction;
-import view.buttons.MinimizeButton;
-import view.buttons.Xbutton;
+import view.buttons.MiniButtons;
 import view.labels.*;
 import view.menubar.MenuBar;
 
@@ -39,18 +38,17 @@ public class CentralFrame extends JFrame {
     private JPanel panel;
     private MenuBar menuBar;
     private JLabel menuBarLabel;
-    private Xbutton xButton;
-    private MinimizeButton minimizeButton;
-    private JButton backButton;
     private Picture picture;
     private List<JLabel> pages;
+    private List<JButton> minimizeButtons;
+    private JButton miniButton;
     private int count;
+    private int count2;
     private Timer timer5;
     private int width = 1125;
     private int height = 750;
     private int posX =0, posY = 0;
     private  Path filePath = Paths.get("./src/main/resources/images");
-
     private AnimationClass slideEfect = new AnimationClass();
     private Random random = new Random();
     private List<JLabel> labelsBackButton = new ArrayList<>();
@@ -68,10 +66,8 @@ public class CentralFrame extends JFrame {
         initMyAccountPage();
         initChangePasswordPage();
         initAuditPage();
-        initMinimButton();
-        initXbutton();
-        initBackButton();
         mouseListener();
+        initCloseMinimizeBackButton();
         setVisible(true);
     }
 
@@ -97,10 +93,30 @@ public class CentralFrame extends JFrame {
         panel.add(backgroundLabel);
     }
 
+
+    private void initCloseMinimizeBackButton(){
+       List<String> miniGifs = picture.getMiniGifs();
+
+        minimizeButtons = new ArrayList<>();
+
+        for(int i = 0; i < 3 ; i++){
+            miniButton = new MiniButtons(1041 + i*27,0,miniGifs.get(i));
+            minimizeButtons.add(miniButton);
+            backgroundLabel.add(miniButton);
+        }
+
+        minimizeButtons.get(0).addActionListener(e -> letsGoBack() );
+        minimizeButtons.get(1).addActionListener(e -> setExtendedState(JFrame.ICONIFIED) );
+        minimizeButtons.get(2).addActionListener(e -> dispose() );
+
+    }
+
+
+
     private void initMenuBar(){
         menuBar = new MenuBar();
         menuBarLabel = new JLabel();
-        menuBarLabel.setBounds(0,-27,1070,27);
+        menuBarLabel.setBounds(0,-27,1041,27);
         menuBarLabel.add(menuBar);
         backgroundLabel.add(menuBarLabel);
 
@@ -164,18 +180,6 @@ public class CentralFrame extends JFrame {
         addFlightsPage.getAddFlightButton().addActionListener(e -> flightPageAddFlightButton());
     }
 
-    private void initMinimButton(){
-        minimizeButton = new MinimizeButton(1069,0);
-        backgroundLabel.add(minimizeButton);
-        minimizeButton.addActionListener(e -> this.setExtendedState(JFrame.ICONIFIED));
-    }
-
-    private void initXbutton(){
-        xButton = new Xbutton(1097,0);
-        backgroundLabel.add(xButton);
-        xButton.addActionListener( e-> dispose());
-    }
-
     private void mouseListener() {
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -192,13 +196,7 @@ public class CentralFrame extends JFrame {
             }
         });
     }
-
-    public void initBackButton(){
-        backButton = new JButton("back");
-        backButton.setBounds(10,30,100,20);
-        backgroundLabel.add(backButton);
-        backButton.addActionListener(e -> letsGoBack());
-    }
+    
     //todo de rezolvat bug backbutton cand dau back si foward si iar back
     // nu o ia de la ultima pagina afisata ci de unde a ramas contorul
     public void letsGoBack(){
@@ -245,11 +243,20 @@ public class CentralFrame extends JFrame {
         timer5 = new Timer(20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                slideEfect.jLabelYUp(0,-1100,10,4, loginPage);
-                slideEfect.jLabelYUp(1100,0,10,4, mainPage);
-                slideEfect.jLabelYDown(-27,0,1,1,menuBarLabel);
-                timer5.stop();
+
+                if(count2 == 0){
+                    slideEfect.jLabelYDown(0,40,20,2,loginPage);
+                }
+                if(count2 == 22){
+                    slideEfect.jLabelYUp(40,-1100,10,4, loginPage);
+                    slideEfect.jLabelYUp(1100,0,10,4, mainPage);
+                }
+
+                if( count2 == 150){
+                    slideEfect.jLabelYDown(-27,0,1,1,menuBarLabel);
+                    timer5.stop();
+                }
+                count2++;
             }
         });
         return timer5;
@@ -308,6 +315,7 @@ public class CentralFrame extends JFrame {
         if(loginPage.getY() == -1100){
             moveTwoLabelsDown(loginPage);
             log.createAuditLog("logged out on:");
+            count2 = 0;
         }
     }
 
@@ -368,6 +376,7 @@ public class CentralFrame extends JFrame {
             changePasswordPage.updatePassword();
             moveTwoLabelsDown(loginPage);
             log.createAuditLog("changed password on:");
+            count2 = 0;
         }
     }
 

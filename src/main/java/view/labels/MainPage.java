@@ -2,7 +2,7 @@ package view.labels;
 
 import controller.FlightController;
 import models.Flight;
-import view.buttons.RedButton;
+import view.buttons.MiniButtons;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -213,7 +213,7 @@ class ButtonEditor extends DefaultCellEditor{
     public ButtonEditor(JTextField txt) {
         super(txt);
 
-        btn = new RedButton(0,0);
+        btn = new MiniButtons(0,0);
         btn.setOpaque(true);
 
         btn.addActionListener(e -> {

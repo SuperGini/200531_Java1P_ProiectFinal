@@ -3,6 +3,7 @@ package media;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,4 +24,23 @@ public class Picture {
         }
         return Collections.emptyList();
     }
+
+    public List<String> getMiniGifs(){
+        Path filePath  = Paths.get("./src/main/resources/icons/miniGifs");
+
+        try {
+        return    Files.list(filePath)
+                    .map(Path::toString)
+                    .sorted()
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return Collections.emptyList();
+
+    }
+
+
 }
