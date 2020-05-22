@@ -244,6 +244,7 @@ public class LoadingFrame extends JFrame{
         timerLoadingBar.stop();
         timerLoadingLabel.stop();
         timerLoginRegisterButton.stop();
+        soundPlay.getSound().close();
 
     }
 
@@ -254,7 +255,7 @@ public class LoadingFrame extends JFrame{
             timer3.stop();
         }
     });
-    // coboara register label
+
     Timer timer4 = new Timer(0, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

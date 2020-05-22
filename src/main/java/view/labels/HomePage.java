@@ -11,21 +11,24 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class MainPage extends JLabel {
+public class HomePage extends JLabel {
 
     private JPanel transparentPanel;
     private JTable flightTable;
     private JButton adaugaZbor;
-    private JButton deleteFlight;
     private JLabel dateAndClockLabel;
     public DefaultTableModel model;
+    private  ScheduledExecutorService service;
 
     private int width = 1125;
     private int height = 750;
 
 
-    private MainPage(){
+    private HomePage(){
         this.setBounds(0,1100,width, height);
         initTransparentPanel ();
 
@@ -149,18 +152,24 @@ public class MainPage extends JLabel {
         }
     }
 
-    private void initDateAndClockLabel(){
+    private void initDateAndClockLabel() {
         dateAndClockLabel = new JLabel();
-        dateAndClockLabel.setBounds(300,300, 175, 30);
-        dateAndClockLabel.setFont(new Font("Serif",Font.ITALIC,20));
+        dateAndClockLabel.setBounds(300, 300, 175, 30);
+        dateAndClockLabel.setFont(new Font("Dialog", Font.BOLD, 15));
         transparentPanel.add(dateAndClockLabel);
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("MM-dd-yyyy HH:mm:ss");
 
-        Timer timer1 = new Timer(1000, e -> dateAndClockLabel.setText(LocalDateTime.now().format(timeFormatter)));
-        timer1.start();
+        service = Executors.newSingleThreadScheduledExecutor();
+        Runnable r = () -> dateAndClockLabel.setText(LocalDateTime.now().format(timeFormatter));
+
+        service.scheduleWithFixedDelay(r, 0, 1, TimeUnit.SECONDS);
     }
 
+
+    public ScheduledExecutorService getService() {
+        return service;
+    }
 
     public JButton getAdaugaZbor() {
         return adaugaZbor;
@@ -175,10 +184,10 @@ public class MainPage extends JLabel {
     }
 
     private static final class SingletonHolder{
-        public static MainPage INSTANCE = new MainPage();
+        public static HomePage INSTANCE = new HomePage();
     }
 
-    public static MainPage getInstance(){
+    public static HomePage getInstance(){
         return SingletonHolder.INSTANCE;
     }
 }
@@ -220,13 +229,13 @@ class ButtonEditor extends DefaultCellEditor{
 
             int option = JOptionPane.showConfirmDialog(
                     null,"Delete Flight?","confirm box",JOptionPane.YES_NO_OPTION);
-            MainPage mainPage = MainPage.getInstance();
-            int row = mainPage.getFlightTable().getSelectedRow();
-            int id = (Integer) mainPage.getFlightTable().getModel().getValueAt(row,0);
+            HomePage homePage = HomePage.getInstance();
+            int row = homePage.getFlightTable().getSelectedRow();
+            int id = (Integer) homePage.getFlightTable().getModel().getValueAt(row,0);
             if(id >=0){
                 if(option == JOptionPane.YES_OPTION){
                     FlightController.getInstance().deleteFlight(id);
-                    mainPage.tableData();
+                    homePage.tableData();
                 }
             }
             fireEditingStopped();

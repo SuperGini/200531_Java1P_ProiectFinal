@@ -27,7 +27,7 @@ public class CentralFrame extends JFrame {
     private BackgroundLabel backgroundLabel;
     private LoginPage loginPage;
     private RegisterPage registerPage;
-    private MainPage mainPage;
+    private HomePage homePage;
     private AddFlightsPage addFlightsPage;
     private MyAccountPage myAccountPage;
     private ChangePasswordPage changePasswordPage;
@@ -100,15 +100,13 @@ public class CentralFrame extends JFrame {
         minimizeButtons = new ArrayList<>();
 
         for(int i = 0; i < 3 ; i++){
-            miniButton = new MiniButtons(1041 + i*27,0,miniGifs.get(i));
+            miniButton = new MiniButtons(1044 + i*27,0,miniGifs.get(i));
             minimizeButtons.add(miniButton);
             backgroundLabel.add(miniButton);
         }
-
         minimizeButtons.get(0).addActionListener(e -> letsGoBack() );
         minimizeButtons.get(1).addActionListener(e -> setExtendedState(JFrame.ICONIFIED) );
-        minimizeButtons.get(2).addActionListener(e -> dispose() );
-
+        minimizeButtons.get(2).addActionListener(e -> closeProgram());
     }
 
 
@@ -116,7 +114,7 @@ public class CentralFrame extends JFrame {
     private void initMenuBar(){
         menuBar = new MenuBar();
         menuBarLabel = new JLabel();
-        menuBarLabel.setBounds(0,-27,1041,27);
+        menuBarLabel.setBounds(0,-27,1044,27);
         menuBarLabel.add(menuBar);
         backgroundLabel.add(menuBarLabel);
 
@@ -142,10 +140,10 @@ public class CentralFrame extends JFrame {
     }
 
     private void initMainPage(){
-        mainPage = MainPage.getInstance();
-        backgroundLabel.add(mainPage);
+        homePage = HomePage.getInstance();
+        backgroundLabel.add(homePage);
 
-        mainPage.getAdaugaZbor().addActionListener(e->addFlightButton());
+        homePage.getAdaugaZbor().addActionListener(e->addFlightButton());
     }
 
     private void initMyAccountPage(){
@@ -251,7 +249,7 @@ public class CentralFrame extends JFrame {
                 }
                 if(count2 == 22){
                     slideEfect.jLabelYUp(40,-1100,10,4, loginPage);
-                    slideEfect.jLabelYUp(1100,0,10,4, mainPage);
+                    slideEfect.jLabelYUp(1100,0,10,4, homePage);
                 }
 
                 if( count2 == 150){
@@ -289,7 +287,7 @@ public class CentralFrame extends JFrame {
         pages = new ArrayList<>();
         pages.add(loginPage);
         pages.add(registerPage);
-        pages.add(mainPage);
+        pages.add(homePage);
         pages.add(addFlightsPage);
         pages.add(myAccountPage);
         pages.add(changePasswordPage);
@@ -298,19 +296,17 @@ public class CentralFrame extends JFrame {
     }
 
     private void menuBarHomePage(){
-        if(mainPage.getY() == 1100){
-            log.createAuditLog("accesed Main Page on:");
- //           labelsBackButton.add(mainPage);
-            oneLabelUpOneLabelDown(mainPage);
-            addPageToBackButton(mainPage);
+        if(homePage.getY() == 1100){
+            log.createAuditLog("HOME PAGE:");
+            oneLabelUpOneLabelDown(homePage);
+            addPageToBackButton(homePage);
         }
     }
 
     private void menuBarMyAccountPage(){
         if(myAccountPage.getY() == 1100){
             oneLabelUpOneLabelDown(myAccountPage);
-            log.createAuditLog("accessed My Account page on:"); //todo de verificat daca acum e logul ok
-//            labelsBackButton.add(myAccountPage);
+            log.createAuditLog("MY ACCOUNT"); //todo de verificat daca acum e logul ok
             addPageToBackButton(myAccountPage);
         }
     }
@@ -318,7 +314,7 @@ public class CentralFrame extends JFrame {
     private void menuBarLogOut(){
         if(loginPage.getY() == -1100){
             moveTwoLabelsDown(loginPage);
-            log.createAuditLog("logged out on:");
+            log.createAuditLog("LOG OUT:");
             count2 = 0;
         }
     }
@@ -327,14 +323,12 @@ public class CentralFrame extends JFrame {
         if(loginPage.validCredential()){
             count = 0;
             labelsBackButton.clear();
-            log.createAuditLog("logged in on");
-            log.createAuditLog("accessed Main Page on:");
+            log.createAuditLog("LOGIN");
+            log.createAuditLog("MAIN PAGE");
             getTimer5().start();
             new LogOutFunction().getLogOutTimer().start();
-//            labelsBackButton.add(loginPage);
-//            labelsBackButton.add(mainPage);
             addPageToBackButton(loginPage);
-            addPageToBackButton(mainPage);
+            addPageToBackButton(homePage);
 
         }
     }
@@ -350,14 +344,12 @@ public class CentralFrame extends JFrame {
     private void addFlightButton(){
         oneLabelUpOneLabelDown(addFlightsPage);
         log.createAuditLog("ADD FLIGHT PAGE");
- //       labelsBackButton.add(addFlightsPage);
         addPageToBackButton(addFlightsPage);
     }
 
     private void myAccoutPageChangePassButton(){
         oneLabelUpOneLabelDown(changePasswordPage);
         log.createAuditLog("PASSWORD CHANGE PAGE ");
-//        labelsBackButton.add(changePasswordPage);
         addPageToBackButton(changePasswordPage);
     }
 
@@ -365,7 +357,6 @@ public class CentralFrame extends JFrame {
         oneLabelUpOneLabelDown(auditPage);
         auditPage.initAuditTableData();
         log.createAuditLog("AUDIT PAGE");
-//        labelsBackButton.add(auditPage);
         addPageToBackButton(auditPage);
     }
 
@@ -392,19 +383,22 @@ public class CentralFrame extends JFrame {
     }
 
     private void flightPageAnulateButton(){
-        oneLabelUpOneLabelDown(mainPage);
-        log.createAuditLog("EXIT ADD FLIGHT PAGE");
+        oneLabelUpOneLabelDown(homePage);
         log.createAuditLog("MAIN PAGE");
-//        labelsBackButton.add(mainPage);
-        addPageToBackButton(mainPage);
+        addPageToBackButton(homePage);
     }
 
     private void flightPageAddFlightButton(){
         if(addFlightsPage.valid()) {
             addFlightsPage.addFlight();
-            mainPage.tableData();
+            homePage.tableData();
             log.createAuditLog("ADDED A FLIGHT");
         }
+    }
+
+    private void closeProgram(){
+        dispose();
+        homePage.getService().shutdown();
     }
 
     private void addPageToBackButton(JLabel page){

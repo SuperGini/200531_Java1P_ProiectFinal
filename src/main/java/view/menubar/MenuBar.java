@@ -12,7 +12,7 @@ public class MenuBar extends JMenuBar {
  
 
     public MenuBar(){
-        this.setBounds(0,0,1041,27);
+        this.setBounds(0,0,1044,27);
         initMenu();
         initHomePage();
         initMyAccount();

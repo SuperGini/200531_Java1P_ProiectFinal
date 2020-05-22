@@ -13,8 +13,6 @@ public class SoundPlay {
 
     public Clip getSound(){
 
-
-
         if(clip == null){
             try(
                     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile())
