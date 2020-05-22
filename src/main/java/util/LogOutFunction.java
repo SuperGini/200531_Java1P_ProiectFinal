@@ -29,7 +29,7 @@ public class LogOutFunction {
         logoutTimer = new Timer(chechInterval, e -> startCountDown());
         return logoutTimer;
     }
-                //todo posibil bug cand se shimba ora
+
     private void startCountDown(){
         Optional<Person> person = PersonController.getInstance().getLoggedPerson();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -41,7 +41,7 @@ public class LogOutFunction {
             LocalDateTime t1 = LocalDateTime.parse(lastAction, format);
             LocalDateTime t2 = LocalDateTime.now();
 
-   //         System.out.println(t1 + "       " + t2);
+            System.out.println(t1 + "       " + t2);
             long elapsedMinutes = Duration.between(t1, t2).toMinutes();
             if (elapsedMinutes == 15) {
                 logoutTimer.stop();

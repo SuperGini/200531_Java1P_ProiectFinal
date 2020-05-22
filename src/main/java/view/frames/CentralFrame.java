@@ -196,7 +196,7 @@ public class CentralFrame extends JFrame {
             }
         });
     }
-    
+
     //todo de rezolvat bug backbutton cand dau back si foward si iar back
     // nu o ia de la ultima pagina afisata ci de unde a ramas contorul
     public void letsGoBack(){
@@ -213,19 +213,21 @@ public class CentralFrame extends JFrame {
             }
 
             if(lastIndex == 1){
+                count2 = 0;
                 moveTwoLabelsDown(loginPage);
             }
 
             if((lastIndex > 1) && (labelsBackButton.get(beforeLastIndex) == loginPage)){
 
                 moveTwoLabelsDown(loginPage);
+
             }
         }
 
-        if(loginPage.getY() == 0){
-            count = 0;
-            labelsBackButton.clear();
-        }
+//        if(loginPage.getY() == 0){
+//            count = 0;
+//            labelsBackButton.clear();
+//        }
     }
 
     public void moveLoginRegisterPage(JLabel up){
@@ -298,8 +300,9 @@ public class CentralFrame extends JFrame {
     private void menuBarHomePage(){
         if(mainPage.getY() == 1100){
             log.createAuditLog("accesed Main Page on:");
-            labelsBackButton.add(mainPage);
+ //           labelsBackButton.add(mainPage);
             oneLabelUpOneLabelDown(mainPage);
+            addPageToBackButton(mainPage);
         }
     }
 
@@ -307,7 +310,8 @@ public class CentralFrame extends JFrame {
         if(myAccountPage.getY() == 1100){
             oneLabelUpOneLabelDown(myAccountPage);
             log.createAuditLog("accessed My Account page on:"); //todo de verificat daca acum e logul ok
-            labelsBackButton.add(myAccountPage);
+//            labelsBackButton.add(myAccountPage);
+            addPageToBackButton(myAccountPage);
         }
     }
 
@@ -327,8 +331,11 @@ public class CentralFrame extends JFrame {
             log.createAuditLog("accessed Main Page on:");
             getTimer5().start();
             new LogOutFunction().getLogOutTimer().start();
-            labelsBackButton.add(loginPage);
-            labelsBackButton.add(mainPage);
+//            labelsBackButton.add(loginPage);
+//            labelsBackButton.add(mainPage);
+            addPageToBackButton(loginPage);
+            addPageToBackButton(mainPage);
+
         }
     }
 
@@ -342,21 +349,24 @@ public class CentralFrame extends JFrame {
 
     private void addFlightButton(){
         oneLabelUpOneLabelDown(addFlightsPage);
-        log.createAuditLog("accesed Add Flight Page on:");
-        labelsBackButton.add(addFlightsPage);
+        log.createAuditLog("ADD FLIGHT PAGE");
+ //       labelsBackButton.add(addFlightsPage);
+        addPageToBackButton(addFlightsPage);
     }
 
     private void myAccoutPageChangePassButton(){
         oneLabelUpOneLabelDown(changePasswordPage);
-        log.createAuditLog("accesed Password Change Page on: ");
-        labelsBackButton.add(changePasswordPage);
+        log.createAuditLog("PASSWORD CHANGE PAGE ");
+//        labelsBackButton.add(changePasswordPage);
+        addPageToBackButton(changePasswordPage);
     }
 
     private void myAccountPageAuditPageButton(){
         oneLabelUpOneLabelDown(auditPage);
         auditPage.initAuditTableData();
-        log.createAuditLog("accesed Audit Page");
-        labelsBackButton.add(auditPage);
+        log.createAuditLog("AUDIT PAGE");
+//        labelsBackButton.add(auditPage);
+        addPageToBackButton(auditPage);
     }
 
     private void myAccountPageChangeEmailButton(){
@@ -368,6 +378,7 @@ public class CentralFrame extends JFrame {
     private void myAccountPageChangeUsernameButton(){
         if(myAccountPage.validUsername()){
             myAccountPage.updateUsername();
+            log.createAuditLog("CHANGED USERNAME");
         }
     }
 
@@ -375,24 +386,30 @@ public class CentralFrame extends JFrame {
         if(changePasswordPage.validPassword()){
             changePasswordPage.updatePassword();
             moveTwoLabelsDown(loginPage);
-            log.createAuditLog("changed password on:");
+            log.createAuditLog("CHANGED PASSWORD");
             count2 = 0;
         }
     }
 
     private void flightPageAnulateButton(){
         oneLabelUpOneLabelDown(mainPage);
-        log.createAuditLog("exiting Add Flight Page on:");
-        log.createAuditLog("accesed Main Page on:");
-        labelsBackButton.add(mainPage);
+        log.createAuditLog("EXIT ADD FLIGHT PAGE");
+        log.createAuditLog("MAIN PAGE");
+//        labelsBackButton.add(mainPage);
+        addPageToBackButton(mainPage);
     }
 
     private void flightPageAddFlightButton(){
         if(addFlightsPage.valid()) {
             addFlightsPage.addFlight();
             mainPage.tableData();
-            log.createAuditLog("a flight was added on:");
+            log.createAuditLog("ADDED A FLIGHT");
         }
+    }
+
+    private void addPageToBackButton(JLabel page){
+        labelsBackButton.add(page);
+        count = 0;
     }
 
     private static final class SingletonHolder{
