@@ -172,11 +172,9 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initWorldIcon(){
-        worldIcon = new JLabel();
+        String  image = "./src/main/resources/icons/worldmap1.png";
+        worldIcon = new SetSizeAndImage(550,170,305,159, image);
         String  gif = "./src/main/resources/icons/worldmap1.png";
-        worldIcon.setBounds(550,170,305,159);
-        ImageIcon imageIcon = new ImageIcon(gif);
-        worldIcon.setIcon(imageIcon);
         transparentPanel.add(worldIcon);
     }
 

@@ -42,7 +42,7 @@ public class MyAccountPage extends JLabel {
         initChangeEmailField();
         initChangePasswordButton();
         initAuditPageButton();
-        initGifLabel();
+        initImageLabel();
     }
 
 
@@ -123,12 +123,9 @@ public class MyAccountPage extends JLabel {
         transparentPanel.add(auditPageButton);
     }
 
-    private void initGifLabel(){
-        gifLabel = new JLabel();
-        String  gif = "./src/main/resources/icons/compas1.png";
-        gifLabel.setBounds(520,50,410,308);
-        ImageIcon imageIcon = new ImageIcon(gif);
-        gifLabel.setIcon(imageIcon);
+    private void initImageLabel(){
+        String  image = "./src/main/resources/icons/compas1.png";
+        gifLabel = new SetSizeAndImage(520,50,410,308, image);
         transparentPanel.add(gifLabel);
     }
 
