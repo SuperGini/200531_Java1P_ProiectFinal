@@ -1,6 +1,1 @@
-./src/main/resources/images/road.jpg
-./src/main/resources/images/metro.jpg
-./src/main/resources/images/road2.jpg
-./src/main/resources/images/space.jpg
-./src/main/resources/images/winter.jpg
-
+jdbc:mysql://localhost/proiect_final_java1p

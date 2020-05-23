@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,9 +10,24 @@ import java.sql.SQLException;
 public class ConnectionManager {
 
     private Connection connection;
+    private String url;
+
+
+    {
+        try(
+                FileReader fileReader = new FileReader("./src/main/resources/txt/path.txt");
+                BufferedReader bufferedReader = new BufferedReader(fileReader)
+        ){
+
+                 url = bufferedReader.readLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private ConnectionManager(){
-        String url = "jdbc:mysql://localhost/proiect_final_java1p";
+
 
         try {
             connection = DriverManager.getConnection(url,"root", "");
