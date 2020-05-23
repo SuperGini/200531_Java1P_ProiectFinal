@@ -106,7 +106,7 @@ public class ChangePasswordPage extends JLabel {
                     + " one big letter and onde number");
             return false;
         }
-            showMessage("Password changed");
+            JOptionPane.showMessageDialog(null, "Password changed");
         return true;
     }
 
@@ -121,13 +121,20 @@ public class ChangePasswordPage extends JLabel {
         JOptionPane.showMessageDialog(null, message, "Error",JOptionPane.ERROR_MESSAGE);
     }
 
+    public void updatePassword(){
+        Optional<Person> person = PersonController.getInstance().getLoggedPerson();
+        person.ifPresent(value -> PersonController.getInstance().updatePassword(String.valueOf(passwordField.getPassword()), value.getUsername()));
+    }
+
     public JButton getChangePassword() {
         return changePassword;
     }
 
-    public void updatePassword(){
-        Optional<Person> person = PersonController.getInstance().getLoggedPerson();
-        person.ifPresent(value -> PersonController.getInstance().updatePassword(String.valueOf(passwordField.getPassword()), value.getUsername()));
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
 
+    public JPasswordField getConfirmPasswordField() {
+        return confirmPasswordField;
     }
 }

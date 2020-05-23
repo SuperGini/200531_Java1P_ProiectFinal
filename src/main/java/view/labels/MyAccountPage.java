@@ -17,8 +17,8 @@ public class MyAccountPage extends JLabel {
     private JLabel changeUsernameLabel;
     private JLabel changeEmailLabel;
     private JLabel emailLabel;
-    private JTextField newEmailField;
-    private JTextField newUsernameField;
+    private JTextField changeEmailField;
+    private JTextField changeUsernameField;
     private JButton changeUsernameButton;
     private JButton changeEmailButton;
     private JButton changePasswordButton;
@@ -105,15 +105,15 @@ public class MyAccountPage extends JLabel {
     }
 
     private void initChangeUsernameField(){
-        newUsernameField = new JTextField();
-        newUsernameField.setBounds(200, 200,150,25);
-        transparentPanel.add(newUsernameField);
+        changeUsernameField = new JTextField();
+        changeUsernameField.setBounds(200, 200,150,25);
+        transparentPanel.add(changeUsernameField);
     }
 
     private void initChangeEmailField(){
-        newEmailField = new JTextField();
-        newEmailField.setBounds(200, 240,150,25);
-        transparentPanel.add(newEmailField);
+        changeEmailField = new JTextField();
+        changeEmailField.setBounds(200, 240,150,25);
+        transparentPanel.add(changeEmailField);
     }
 
     private void initAuditPageButton(){
@@ -131,23 +131,21 @@ public class MyAccountPage extends JLabel {
 
     public void updateUsername(){
         boolean updateUsername = PersonController.getInstance()
-                    .updateUsername(newUsernameField.getText(), changeUsernameLabel.getText());
+                    .updateUsername(changeUsernameField.getText(), changeUsernameLabel.getText());
 
         if(updateUsername){
-            changeUsernameLabel.setText( newUsernameField.getText());
-            JOptionPane.showMessageDialog(null,"S-a facut update boss");
-        }else{
-            JOptionPane.showMessageDialog(null,"Nu merge boss");
+            changeUsernameLabel.setText( changeUsernameField.getText());
+            JOptionPane.showMessageDialog(null,"Username changed");
         }
     }
 
     public void updateEmailAdress(){
         boolean updateEmailAdress = PersonController.getInstance()
-                .updateEmailAdress(newEmailField.getText(), changeEmailLabel.getText());
+                .updateEmailAdress(changeEmailField.getText(), changeEmailLabel.getText());
 
         if(updateEmailAdress){
 
-            changeEmailLabel.setText(newEmailField.getText());
+            changeEmailLabel.setText(changeEmailField.getText());
             JOptionPane.showMessageDialog(null, "Email adress has been changed");
         }else{
             showMessage("Error changing email adress!");
@@ -156,9 +154,9 @@ public class MyAccountPage extends JLabel {
     }
 
     public boolean validUsername(){
-       Optional<Person> person = PersonController.getInstance().findByUsername(newUsernameField.getText());
+       Optional<Person> person = PersonController.getInstance().findByUsername(changeUsernameField.getText());
 
-        if(newUsernameField.getText().equals("")){
+        if(changeUsernameField.getText().equals("")){
             showMessage("Enter new username");
             return false;
         }
@@ -172,14 +170,14 @@ public class MyAccountPage extends JLabel {
 
 
     public boolean validEmailAdress(){
-        Optional<Person> person = PersonController.getInstance().findByEmaiAdress(newEmailField.getText());
+        Optional<Person> person = PersonController.getInstance().findByEmaiAdress(changeEmailField.getText());
 
-        if(newEmailField.getText().equals("")){
+        if(changeEmailField.getText().equals("")){
             showMessage("Enter new email adress");
             return false;
         }
 
-        if(!validEmailFormat(newEmailField.getText())){
+        if(!validEmailFormat(changeEmailField.getText())){
             showMessage("Email adress is not correct");
             return false;
         }
@@ -226,12 +224,12 @@ public class MyAccountPage extends JLabel {
         return changeEmailLabel;
     }
 
-    public JTextField getNewEmailField() {
-        return newEmailField;
+    public JTextField getChangeEmailField() {
+        return changeEmailField;
     }
 
-    public JTextField getNewUsernameField() {
-        return newUsernameField;
+    public JTextField getChangeUsernameField() {
+        return changeUsernameField;
     }
 
     public JButton getAuditPageButton() {

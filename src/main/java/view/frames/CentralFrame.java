@@ -357,22 +357,34 @@ public class CentralFrame extends JFrame {
     private void myAccountPageChangeEmailButton(){
         if(myAccountPage.validEmailAdress()){
             myAccountPage.updateEmailAdress();
+            myAccountPage.getChangeEmailField().setText("");
+            log.createAuditLog("CHANGED EMAIL ADRESS");
+        }else{
+            myAccountPage.getChangeEmailField().setText("");
         }
     }
 
     private void myAccountPageChangeUsernameButton(){
         if(myAccountPage.validUsername()){
             myAccountPage.updateUsername();
+            myAccountPage.getChangeUsernameField().setText("");
             log.createAuditLog("CHANGED USERNAME");
+        }else{
+            myAccountPage.getChangeUsernameField().setText("");
         }
     }
 
     private void changePasswordPageChangePasswordButton(){
         if(changePasswordPage.validPassword()){
             changePasswordPage.updatePassword();
+            changePasswordPage.getPasswordField().setText("");
+            changePasswordPage.getConfirmPasswordField().setText("");
             moveTwoLabelsDown(loginPage);
             log.createAuditLog("CHANGED PASSWORD");
             count2 = 0;
+        }else{
+            changePasswordPage.getPasswordField().setText("");
+            changePasswordPage.getConfirmPasswordField().setText("");
         }
     }
 
