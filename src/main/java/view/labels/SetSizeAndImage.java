@@ -18,6 +18,4 @@ public class SetSizeAndImage extends JLabel {
         ImageIcon imageIcon = new ImageIcon(image);
         this.setIcon(imageIcon);
     }
-
-
 }

@@ -9,6 +9,7 @@ import view.labels.*;
 import view.menubar.MenuBar;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,8 +19,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-    //TODO sa vedem daca mai e nevoie sa fie CentralFrame singleton class
+//TODO sa vedem daca mai e nevoie sa fie CentralFrame singleton class
 
 public class CentralFrame extends JFrame {
 
@@ -50,6 +55,7 @@ public class CentralFrame extends JFrame {
     private int posX =0, posY = 0;
     private  Path filePath = Paths.get("./src/main/resources/images");
     private AnimationClass slideEfect = new AnimationClass();
+    private ScheduledExecutorService service;
     private Random random = new Random();
     private List<JLabel> labelsBackButton = new ArrayList<>();
 
@@ -68,6 +74,7 @@ public class CentralFrame extends JFrame {
         initAuditPage();
         mouseListener();
         initCloseMinimizeBackButton();
+        randomImageGenerator();
         setVisible(true);
     }
 
@@ -84,13 +91,36 @@ public class CentralFrame extends JFrame {
 
     private String getRandomBacgroundPicture(){
         picture = new Picture();
-        java.util.List<String> strings = picture.getPictures(filePath);
-        return  strings.get(random.nextInt(strings.size()));
+        List<String> strings = picture.getPictures(filePath);
+
+        return   strings.get(random.nextInt(strings.size()));
     }
 
     private void initBackgroundLabel(){
-        backgroundLabel = new SetSizeAndImage(0,0,width, height, getRandomBacgroundPicture());
+        backgroundLabel = new SetSizeAndImage(0,0,width, height,getRandomBacgroundPicture());
         panel.add(backgroundLabel);
+
+    }
+
+            // method 1
+    private void randomImageGenerator(){
+        service = Executors.newSingleThreadScheduledExecutor();
+        Runnable r = () -> backgroundLabel.setIcon(imageIcons().get(random.nextInt(imageIcons().size())));
+        service.scheduleAtFixedRate(r,60,60, TimeUnit.SECONDS);
+    }
+
+        //method 2
+    private List<ImageIcon> imageIcons(){
+         return  picture.getPictures(filePath)
+                .stream()
+                .map(this::image)
+                .collect(Collectors.toList());
+    }
+        //method 3
+    private ImageIcon image(String image){
+        Image image1 = new ImageIcon(image)
+                .getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
+        return new ImageIcon(image1);
     }
 
 
@@ -323,7 +353,6 @@ public class CentralFrame extends JFrame {
             new LogOutFunction().getLogOutTimer().start();
             addPageToBackButton(loginPage);
             addPageToBackButton(homePage);
-
         }
     }
 
@@ -405,6 +434,7 @@ public class CentralFrame extends JFrame {
     private void closeProgram(){
         dispose();
         homePage.getService().shutdown();
+        service.shutdown();
     }
 
     private void addPageToBackButton(JLabel page){

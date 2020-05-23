@@ -2,7 +2,6 @@ package view.labels;
 
 import controller.PersonController;
 import models.Person;
-import view.frames.CentralFrame;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -19,7 +18,6 @@ public class ChangePasswordPage extends JLabel {
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
     private JButton changePassword;
-    private CentralFrame centralFrame;
     private int width = 1125;
     private int height = 750;
 

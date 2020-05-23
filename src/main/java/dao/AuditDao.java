@@ -52,30 +52,6 @@ public class AuditDao {
         return false;
     }
 
-//    public List<Audit> findByPerson(int personId){
-//        List<Audit> audits = new ArrayList<>();
-//
-//        try {
-//            findLog.setInt(1, personId);
-//
-//            ResultSet rs = findLog.executeQuery();
-//
-//            while(rs.next()){
-//                Audit audit  = new Audit.Builder()
-//                                        .setUsername(rs.getString("username"))
-//                                        .setAction(rs.getString("action"))
-//                                        .setDate(rs.getString("date_time"))
-//                                        .setId(rs.getInt("id"))
-//                                        .build();
-//                audits.add(audit);
-//            }
-//            return audits;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return Collections.emptyList();
-//    }
-
     public List<Audit> lastUserAction(String username){
         List<Audit> audits = new ArrayList<>();
         try {
