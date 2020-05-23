@@ -15,19 +15,20 @@ import java.util.stream.Collectors;
 
 public class AddFlightsPage extends JLabel {
     private JPanel transparentPanel;
-    private JLabel sursaLabel;
-    private JLabel destinatieLabel;
-    private JLabel oraPlecareLabel;
-    private JLabel durataLabel;
-    private JLabel pretLabel;
-    private JLabel ziLabel;
+    private JLabel surceLabel;
+    private JLabel destinationLabel;
+    private JLabel departureHourLabel;
+    private JLabel durationLabel;
+    private JLabel priceLabel;
+    private JLabel dayLabel;
+    private JLabel worldIcon;
     private JTextField sursaField;
     private JTextField destinatieField;
     private JTextField oraPlecareField;
-    private JTextField durataField;
-    private JTextField pretField;
+    private JTextField durationField;
+    private JTextField priceField;
     private JButton addFlightButton;
-    private JButton anulateButton;
+    private JButton cancelButton;
     private JCheckBox checkBoxButton;
     private String[] days = {"Luni", "Marti", "Miercuri", "Joi", "Vineri", "Samabata", "Duminica"};
 
@@ -43,8 +44,8 @@ public class AddFlightsPage extends JLabel {
     public AddFlightsPage() {
         this.setBounds(0, 1100, width, height);
         initTransparentPanel();
-        initAdaugaZborButton();
-        initAnuleazaButton();
+        iniAddFlightButton();
+        initCancelButton();
         initSursaLabel();
         initSursaField();
         initDestinatieLabel();
@@ -57,6 +58,7 @@ public class AddFlightsPage extends JLabel {
         initPretFiled();
         initCheckBoxLabel();
         initCheckbox();
+        initWorldIcon();
 
     }
 
@@ -71,29 +73,24 @@ public class AddFlightsPage extends JLabel {
         add(transparentPanel);
     }
 
-    private void initAdaugaZborButton() {
-        addFlightButton = new JButton("Adauga zbor");
+    private void iniAddFlightButton() {
+        addFlightButton = new JButton("Add Flight");
         addFlightButton.setBounds(195, 350, 220, 30);
+        addFlightButton.setBackground(Color.CYAN);
         transparentPanel.add(addFlightButton);
-//        addFlightButton.addActionListener(e -> {
-//            if (valid()) {
-//                addFlight();
-//                mainPage.getModel().setRowCount(0);
-//                mainPage.showFlights();
-//            }
-//        });
     }
 
-    private void initAnuleazaButton() {
-        anulateButton = new JButton("Anuleaza");
-        anulateButton.setBounds(455, 350, 220, 30);
-        transparentPanel.add(anulateButton);
+    private void initCancelButton() {
+        cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(455, 350, 220, 30);
+        cancelButton.setBackground(Color.CYAN);
+        transparentPanel.add(cancelButton);
     }
 
     private void initSursaLabel() {
-        sursaLabel = new JLabel("Sursa");
-        sursaLabel.setBounds(20, 40, 120, 25);
-        transparentPanel.add(sursaLabel);
+        surceLabel = new JLabel("Source");
+        surceLabel.setBounds(20, 40, 120, 25);
+        transparentPanel.add(surceLabel);
     }
 
     private void initSursaField() {
@@ -103,9 +100,9 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initDestinatieLabel() {
-        destinatieLabel = new JLabel("Destiantie");
-        destinatieLabel.setBounds(300, 40, 120, 25);
-        transparentPanel.add(destinatieLabel);
+        destinationLabel = new JLabel("Destination");
+        destinationLabel.setBounds(300, 40, 120, 25);
+        transparentPanel.add(destinationLabel);
     }
 
     private void initDestiantieField() {
@@ -115,9 +112,9 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initOraPlecareLabel() {
-        oraPlecareLabel = new JLabel("Ora plecare");
-        oraPlecareLabel.setBounds(20, 90, 120, 25);
-        transparentPanel.add(oraPlecareLabel);
+        departureHourLabel = new JLabel("Departure hour");
+        departureHourLabel.setBounds(20, 90, 120, 25);
+        transparentPanel.add(departureHourLabel);
     }
 
     private void initOraPlecareField() {
@@ -127,27 +124,27 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initDurataLabel() {
-        durataLabel = new JLabel("Durata");
-        durataLabel.setBounds(300, 90, 120, 25);
-        transparentPanel.add(durataLabel);
+        durationLabel = new JLabel("Duration");
+        durationLabel.setBounds(300, 90, 120, 25);
+        transparentPanel.add(durationLabel);
     }
 
     private void initDurataField() {
-        durataField = new JTextField();
-        durataField.setBounds(300, 110, 200, 25);
-        transparentPanel.add(durataField);
+        durationField = new JTextField();
+        durationField.setBounds(300, 110, 200, 25);
+        transparentPanel.add(durationField);
     }
 
     private void initPretLabel() {
-        pretLabel = new JLabel("Pret");
-        pretLabel.setBounds(170, 230, 100, 25);
-        transparentPanel.add(pretLabel);
+        priceLabel = new JLabel("Price");
+        priceLabel.setBounds(170, 230, 100, 25);
+        transparentPanel.add(priceLabel);
     }
 
     private void initPretFiled() {
-        pretField = new JTextField();
-        pretField.setBounds(210, 230, 100, 25);
-        transparentPanel.add(pretField);
+        priceField = new JTextField();
+        priceField.setBounds(210, 230, 100, 25);
+        transparentPanel.add(priceField);
 
     }
 
@@ -155,8 +152,9 @@ public class AddFlightsPage extends JLabel {
     private void initCheckbox() {
         buttons = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            String zi = days[i];
-            checkBoxButton = new JCheckBox(zi);
+            String day = days[i];
+            checkBoxButton = new JCheckBox(day);
+            checkBoxButton.setOpaque(false);
             checkBoxButton.setBounds(20, 150 + (i * 25), 20, 20);
             transparentPanel.add(checkBoxButton);
             buttons.add(checkBoxButton);
@@ -166,58 +164,66 @@ public class AddFlightsPage extends JLabel {
     private void initCheckBoxLabel() {
         labels = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            ziLabel = new JLabel(days[i]);
-            ziLabel.setBounds(50, 140 + (i * 25), 70, 50);
-            transparentPanel.add(ziLabel);
-            labels.add(ziLabel);
-
+            dayLabel = new JLabel(days[i]);
+            dayLabel.setBounds(50, 140 + (i * 25), 70, 50);
+            transparentPanel.add(dayLabel);
+            labels.add(dayLabel);
         }
+    }
+
+    private void initWorldIcon(){
+        worldIcon = new JLabel();
+        String  gif = "./src/main/resources/icons/worldmap1.png";
+        worldIcon.setBounds(550,170,305,159);
+        ImageIcon imageIcon = new ImageIcon(gif);
+        worldIcon.setIcon(imageIcon);
+        transparentPanel.add(worldIcon);
     }
 
     public boolean valid() {
         if (sursaField.getText().length() < 3) {
-            showMessage("Sursa trebuie sa aiba mai mult de 2 caractere");
+            showMessage("Source must have minimum three characters");
             return false;
         }
 
         if (destinatieField.getText().length() < 3) {
-            showMessage("destinatia trebuie sa aiba mai mult de 2 caractere");
+            showMessage("Destination must have minimum three characters");
             return false;
         }
 
         if (sursaField.getText().equals(destinatieField.getText())) {
-            showMessage("Sursa si destinatia trebuie sa fie diferite");
+            showMessage("Source and destination must be different");
             return false;
         }
 
         if (validSursaAndDestiantie()) {
-            showMessage("Aceast zbor exista");
+            showMessage("This Flight allready exists");
             return false;
         }
 
 
         if (timeValidation(oraPlecareField.getText())) {
-            showMessage("Format ora plecare introdus gresit. Format valid HH:mm");
+            showMessage("Departure time invalid format. Valid format HH:mm");
             return false;
         }
 
-        if (timeValidation(durataField.getText())) {
-            showMessage("Format durata introdus gresit. Foramt valid HH:mm");
+        if (timeValidation(durationField.getText())) {
+            showMessage("Duration time invalid format. Valid format HH:mm");
             return false;
         }
         if (boxesChecked()) {
-            showMessage("Selecteaza cel putin o zi");
+            showMessage("Select atleast one day");
             return false;
         }
 
         try {
-            if (Double.parseDouble(pretField.getText()) <= 0) {
-                showMessage("Pretul nu poate sa fie zero sau mai mic ca zero");
+            if (Double.parseDouble(priceField.getText()) <= 0) {
+                showMessage("The price is zero or lower");
                 return false;
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            showMessage("Pretul nu are formatul corect");
+            showMessage("Wrong price");
             return false;
         }
         return true;
@@ -272,8 +278,8 @@ public class AddFlightsPage extends JLabel {
         String sursa = sursaField.getText();
         String destinatie = destinatieField.getText();
         String oraPlecare = oraPlecareField.getText();
-        String oraSosire = getOraSosire(oraPlecareField.getText(), durataField.getText());
-        double pret = Double.parseDouble(pretField.getText());
+        String oraSosire = getOraSosire(oraPlecareField.getText(), durationField.getText());
+        double pret = Double.parseDouble(priceField.getText());
 
         String zile = buttons.stream()
                 .filter(AbstractButton::isSelected)
@@ -303,13 +309,11 @@ public class AddFlightsPage extends JLabel {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public JButton getAnulateButton() {
-        return anulateButton;
+    public JButton getCancelButton() {
+        return cancelButton;
     }
 
     public JButton getAddFlightButton() {
         return addFlightButton;
     }
-
-
 }

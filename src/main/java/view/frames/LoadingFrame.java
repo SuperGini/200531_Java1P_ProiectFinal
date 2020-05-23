@@ -3,7 +3,7 @@ package view.frames;
 import AppPackage.AnimationClass;
 import media.SoundPlay;
 import view.buttons.MiniButtons;
-import view.labels.BackgroundLabel;
+import view.labels.SetSizeAndImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +21,8 @@ public class LoadingFrame extends JFrame{
     private MiniButtons xButton;
     private JPanel panel;
 
-    private BackgroundLabel backgroundLabel2;
-    private BackgroundLabel backgroundLabel1;
+    private SetSizeAndImage backgroundLabel2;
+    private SetSizeAndImage backgroundLabel1;
     private JLabel loadingLabel;
     private ImageIcon greenImage;
     private ImageIcon redImage;
@@ -48,6 +48,7 @@ public class LoadingFrame extends JFrame{
         initLoadingLable();
         mouseListener();
         setLayout(null);
+        soundPlay = new SoundPlay();
         setVisible(true);
     }
 
@@ -66,13 +67,13 @@ public class LoadingFrame extends JFrame{
 
     private void initBackground1(){
         String filePath = "./src/main/resources/imagesGif/startPage.gif";
-        backgroundLabel1 = new BackgroundLabel(584,250,filePath);
+        backgroundLabel1 = new SetSizeAndImage(584,250,filePath);
         panel.add(backgroundLabel1);
     }
 
     private void initBackground2(){
         String filePath = "./src/main/resources/imagesGif/loadingPageBackground.gif";
-        backgroundLabel2 = new BackgroundLabel(584,250,filePath);
+        backgroundLabel2 = new SetSizeAndImage(584,250,filePath);
         panel.add(backgroundLabel2);
     }
 
@@ -217,7 +218,6 @@ public class LoadingFrame extends JFrame{
             if(j == 1200){
                 slideEfect.jButtonXRight(-110,187,10,1,loginButton);
                 slideEfect.jButtonXLeft(594,297,10,1,registerButton);
-
             }
 
             if(j == 1500){
@@ -232,11 +232,7 @@ public class LoadingFrame extends JFrame{
         timerLoadingBar.start();
         timerLoadingLabel.start();
         timerLoginRegisterButton.start();
-
-        if(soundPlay == null){
-            soundPlay = new SoundPlay();
-            soundPlay.getSound().start();
-        }
+        soundPlay.getSound().start();
     }
 
     private void exitProgram(){
@@ -245,7 +241,6 @@ public class LoadingFrame extends JFrame{
         timerLoadingLabel.stop();
         timerLoginRegisterButton.stop();
         soundPlay.getSound().close();
-
     }
 
     Timer timer3 = new Timer(0, new ActionListener() {

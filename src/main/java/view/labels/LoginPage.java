@@ -16,7 +16,7 @@ public class LoginPage extends JLabel {
     private JButton registerButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
-    private JLabel centerGif;
+    private JLabel centerImage;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private MyAccountPage myAccountPage;
@@ -25,10 +25,11 @@ public class LoginPage extends JLabel {
     private JPanel transparentPanel;
     private MouseListener mouseAction = new MouseAction();
 
+
     public LoginPage() {
         this.setBounds(0,-1100,width, height);
         initTransparentPanel();
-//        initCenterGif();
+        initCenterImage();
         initUsernameLabel();
         initUsernameField();
         initPasswordLabel();
@@ -37,7 +38,6 @@ public class LoginPage extends JLabel {
         initRegisterButton();
 
     }
-
 
     private void initTransparentPanel(){
         transparentPanel = new TransparentPanel(362,125,400,500){
@@ -50,16 +50,11 @@ public class LoginPage extends JLabel {
         add(transparentPanel);
     }
 
-//    private void initCenterGif(){
-//        String gif = "./src/main/resources/icons/pointing.gif";
-//        centerGif = new JLabel();
-//        centerGif.setBounds(150, 50, 100,100);
-//        ImageIcon imageIcon = new ImageIcon(gif);
-//
-//        centerGif.setOpaque(false);
-//        centerGif.setIcon(imageIcon);
-//        transparentPanel.add(centerGif);
-//    }
+    private void initCenterImage(){
+        String image = "./src/main/resources/icons/earth.png";
+        centerImage = new SetSizeAndImage(140,30,120,120, image);
+        transparentPanel.add(centerImage);
+    }
 
     private void initUsernameLabel(){
         usernameLabel = new JLabel("Username/email");
@@ -90,7 +85,6 @@ public class LoginPage extends JLabel {
         loginButton.setBounds(40,350,320,30);
         loginButton.setBackground(Color.CYAN);
         transparentPanel.add(loginButton);
-
     }
 
     private void initRegisterButton() {

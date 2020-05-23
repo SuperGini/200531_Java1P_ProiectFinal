@@ -15,6 +15,7 @@ public class ChangePasswordPage extends JLabel {
     private JPanel transparentPanel;
     private JLabel passwordLabel;
     private JLabel confirmPasswordLabel;
+    private JLabel centerImage;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
     private JButton changePassword;
@@ -26,6 +27,7 @@ public class ChangePasswordPage extends JLabel {
     public ChangePasswordPage(){
         setBounds(0,1100,width, height);
         initTransparentPanel();
+        initCenterImage();
         initPasswordLabel();
         initPasswordField();
         initConfirmPasswordLabel();
@@ -45,8 +47,14 @@ public class ChangePasswordPage extends JLabel {
         add(transparentPanel);
     }
 
+    private void initCenterImage(){
+        String image = "./src/main/resources/icons/earth.png";
+        centerImage = new SetSizeAndImage(140,30,120,120, image);
+        transparentPanel.add(centerImage);
+    }
+
     private void initPasswordLabel(){
-        passwordLabel = new JLabel("password");
+        passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(175,229,120,25);
         transparentPanel.add(passwordLabel);
     }
@@ -58,7 +66,7 @@ public class ChangePasswordPage extends JLabel {
     }
 
     private void initConfirmPasswordLabel(){
-        confirmPasswordLabel = new JLabel("confirm password");
+        confirmPasswordLabel = new JLabel("Confirm password");
         confirmPasswordLabel.setBounds(155,279,120,25);
         transparentPanel.add(confirmPasswordLabel);
 

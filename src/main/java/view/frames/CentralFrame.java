@@ -24,7 +24,7 @@ import java.util.Random;
 public class CentralFrame extends JFrame {
 
 
-    private BackgroundLabel backgroundLabel;
+    private SetSizeAndImage backgroundLabel;
     private LoginPage loginPage;
     private RegisterPage registerPage;
     private HomePage homePage;
@@ -89,7 +89,7 @@ public class CentralFrame extends JFrame {
     }
 
     private void initBackgroundLabel(){
-        backgroundLabel = new BackgroundLabel(getRandomBacgroundPicture(),width, height);
+        backgroundLabel = new SetSizeAndImage(0,0,width, height, getRandomBacgroundPicture());
         panel.add(backgroundLabel);
     }
 
@@ -143,7 +143,7 @@ public class CentralFrame extends JFrame {
         homePage = HomePage.getInstance();
         backgroundLabel.add(homePage);
 
-        homePage.getAdaugaZbor().addActionListener(e->addFlightButton());
+        homePage.getAddFlight().addActionListener(e->addFlightButton());
     }
 
     private void initMyAccountPage(){
@@ -174,7 +174,7 @@ public class CentralFrame extends JFrame {
     private void initAddFlightsPage(){
         addFlightsPage = new AddFlightsPage();
         backgroundLabel.add(addFlightsPage);
-        addFlightsPage.getAnulateButton().addActionListener(e-> flightPageAnulateButton());
+        addFlightsPage.getCancelButton().addActionListener(e-> flightPageAnulateButton());
         addFlightsPage.getAddFlightButton().addActionListener(e -> flightPageAddFlightButton());
     }
 
@@ -218,14 +218,8 @@ public class CentralFrame extends JFrame {
             if((lastIndex > 1) && (labelsBackButton.get(beforeLastIndex) == loginPage)){
 
                 moveTwoLabelsDown(loginPage);
-
             }
         }
-
-//        if(loginPage.getY() == 0){
-//            count = 0;
-//            labelsBackButton.clear();
-//        }
     }
 
     public void moveLoginRegisterPage(JLabel up){

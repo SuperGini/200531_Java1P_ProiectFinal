@@ -19,7 +19,7 @@ public class HomePage extends JLabel {
 
     private JPanel transparentPanel;
     private JTable flightTable;
-    private JButton adaugaZbor;
+    private JButton addFlight;
     private JLabel dateAndClockLabel;
     public DefaultTableModel model;
     private  ScheduledExecutorService service;
@@ -33,7 +33,7 @@ public class HomePage extends JLabel {
         initTransparentPanel ();
 
 
-        initAdaugaZborButton();
+        initAddFlight();
         initDateAndClockLabel();
         model = new DefaultTableModel();
 //        {
@@ -61,10 +61,11 @@ public class HomePage extends JLabel {
         add(transparentPanel);
     }
 
-    private void initAdaugaZborButton(){
-        adaugaZbor = new JButton("Adauga Zbor");
-        adaugaZbor.setBounds(700,350,120,20);
-        transparentPanel.add(adaugaZbor);
+    private void initAddFlight(){
+        addFlight = new JButton("Add Flight");
+        addFlight.setBounds(290,300,320,30);
+        addFlight.setBackground(Color.CYAN);
+        transparentPanel.add(addFlight);
     }
 
     public void TabelZboruri(){
@@ -129,32 +130,11 @@ public class HomePage extends JLabel {
         flightTable.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
         flightTable.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JTextField()));
 
-
-    }
-
-
-
-
-        //todo vezi ce e cu metoda de mai jos s aajusteze campurile
-    private void updateRowHeights()
-    {
-        for (int row = 0; row < flightTable.getRowCount(); row++)
-        {
-            int rowHeight = flightTable.getRowHeight();
-
-            for (int column = 0; column < flightTable.getColumnCount(); column++)
-            {
-                Component comp = flightTable.prepareRenderer(flightTable.getCellRenderer(row, column), row, column);
-                rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
-            }
-
-            flightTable.setRowHeight(row, rowHeight);
-        }
     }
 
     private void initDateAndClockLabel() {
         dateAndClockLabel = new JLabel();
-        dateAndClockLabel.setBounds(300, 300, 175, 30);
+        dateAndClockLabel.setBounds(363, 265, 175, 30);
         dateAndClockLabel.setFont(new Font("Dialog", Font.BOLD, 15));
         transparentPanel.add(dateAndClockLabel);
         DateTimeFormatter timeFormatter = DateTimeFormatter
@@ -171,8 +151,8 @@ public class HomePage extends JLabel {
         return service;
     }
 
-    public JButton getAdaugaZbor() {
-        return adaugaZbor;
+    public JButton getAddFlight() {
+        return addFlight;
     }
 
     public DefaultTableModel getModel() {
@@ -193,9 +173,7 @@ public class HomePage extends JLabel {
 }
 
 
-class ButtonRenderer extends JButton implements TableCellRenderer
-{
-
+class ButtonRenderer extends JButton implements TableCellRenderer{
 
     public ButtonRenderer() {
 

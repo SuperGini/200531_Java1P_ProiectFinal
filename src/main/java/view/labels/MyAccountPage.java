@@ -23,6 +23,7 @@ public class MyAccountPage extends JLabel {
     private JButton changeEmailButton;
     private JButton changePasswordButton;
     private JButton auditPageButton;
+    private JLabel gifLabel;
     private int width = 1125;
     private int height = 750;
 
@@ -41,6 +42,7 @@ public class MyAccountPage extends JLabel {
         initChangeEmailField();
         initChangePasswordButton();
         initAuditPageButton();
+        initGifLabel();
     }
 
 
@@ -69,8 +71,6 @@ public class MyAccountPage extends JLabel {
         transparentPanel.add(changeUsernameLabel);
     }
 
-
-
     private void initEmailLabel(){
         emailLabel = new JLabel("Email:");
         emailLabel.setBounds(20,90,100,20);
@@ -86,21 +86,22 @@ public class MyAccountPage extends JLabel {
     private void initChageUsernameButton() {
         changeUsernameButton = new JButton("CHANGE USERNAME");
         changeUsernameButton.setBounds(20, 200, 170, 25);
+        changeUsernameButton.setBackground(Color.CYAN);
         transparentPanel.add(changeUsernameButton);
     }
 
     private void initChangeEmailButton(){
         changeEmailButton = new JButton("CHANGE EMAIL ADRESS");
         changeEmailButton.setBounds(20,240,170,25);
+        changeEmailButton.setBackground(Color.CYAN);
         transparentPanel.add(changeEmailButton);
     }
 
     private void initChangePasswordButton(){
         changePasswordButton = new JButton("CHANGE PASSWORD");
-        changePasswordButton.setBounds(20, 300, 330, 25);
+        changePasswordButton.setBounds(20, 308, 330, 25);
+        changePasswordButton.setBackground(Color.CYAN);
         transparentPanel.add(changePasswordButton);
-
-
     }
 
     private void initChangeUsernameField(){
@@ -117,8 +118,18 @@ public class MyAccountPage extends JLabel {
 
     private void initAuditPageButton(){
         auditPageButton = new JButton("AUDIT PAGE");
-        auditPageButton.setBounds(20, 340, 330, 25);
+        auditPageButton.setBounds(20, 348, 330, 25);
+        auditPageButton.setBackground(Color.CYAN);
         transparentPanel.add(auditPageButton);
+    }
+
+    private void initGifLabel(){
+        gifLabel = new JLabel();
+        String  gif = "./src/main/resources/icons/compas1.png";
+        gifLabel.setBounds(520,50,410,308);
+        ImageIcon imageIcon = new ImageIcon(gif);
+        gifLabel.setIcon(imageIcon);
+        transparentPanel.add(gifLabel);
     }
 
     public void updateUsername(){
