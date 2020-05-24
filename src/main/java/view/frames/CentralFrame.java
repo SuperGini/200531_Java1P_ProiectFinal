@@ -139,8 +139,6 @@ public class CentralFrame extends JFrame {
         minimizeButtons.get(2).addActionListener(e -> closeProgram());
     }
 
-
-
     private void initMenuBar(){
         menuBar = new MenuBar();
         menuBarLabel = new JLabel();
@@ -193,6 +191,7 @@ public class CentralFrame extends JFrame {
     private void initChangePasswordPage(){
         changePasswordPage = new ChangePasswordPage();
         backgroundLabel.add(changePasswordPage);
+
         changePasswordPage.getChangePassword().addActionListener(e -> changePasswordPageChangePasswordButton());
     }
 
@@ -204,7 +203,8 @@ public class CentralFrame extends JFrame {
     private void initAddFlightsPage(){
         addFlightsPage = new AddFlightsPage();
         backgroundLabel.add(addFlightsPage);
-        addFlightsPage.getCancelButton().addActionListener(e-> flightPageAnulateButton());
+
+        addFlightsPage.getCancelButton().addActionListener(e-> flightPageCancelButton());
         addFlightsPage.getAddFlightButton().addActionListener(e -> flightPageAddFlightButton());
     }
 
@@ -232,9 +232,8 @@ public class CentralFrame extends JFrame {
         int lastIndex = labelsBackButton.size() - count -1;
         int beforeLastIndex = labelsBackButton.size()  - count - 2;
 
-        if(loginPage.getY() !=0 && labelsBackButton.get(lastIndex).getY() == 0){  //anti spam button:D
+        if(loginPage.getY() !=0 && labelsBackButton.get(lastIndex).getY() == 0){  //-> anti spam button:D
             count++;
-     //       System.out.println(count + "  : " + labelsBackButton.size());
 
             if(lastIndex  > 1){
                 oneLabelUpOneLabelDown(labelsBackButton.get(beforeLastIndex));
@@ -366,7 +365,7 @@ public class CentralFrame extends JFrame {
 
     private void addFlightButton(){
         oneLabelUpOneLabelDown(addFlightsPage);
-        log.createAuditLog("ADD FLIGHT PAGE");
+        log.createAuditLog("ADD FLIGHT PAge");
         addPageToBackButton(addFlightsPage);
     }
 
@@ -417,17 +416,19 @@ public class CentralFrame extends JFrame {
         }
     }
 
-    private void flightPageAnulateButton(){
+    private void flightPageCancelButton(){
         oneLabelUpOneLabelDown(homePage);
         log.createAuditLog("MAIN PAGE");
         addPageToBackButton(homePage);
     }
-
+        //todo de sters de vazut
     private void flightPageAddFlightButton(){
         if(addFlightsPage.valid()) {
             addFlightsPage.addFlight();
             homePage.tableData();
             log.createAuditLog("ADDED A FLIGHT");
+            resetFields();
+
         }
     }
 
@@ -440,6 +441,19 @@ public class CentralFrame extends JFrame {
     private void addPageToBackButton(JLabel page){
         labelsBackButton.add(page);
         count = 0;
+    }
+
+    private void resetFields(){
+        for(Integer button : addFlightsPage.getButtons().keySet()){  //resets the selected checkbox
+            if(addFlightsPage.getButtons().get(button).isSelected()){
+                addFlightsPage.getButtons().get(button).setSelected(false);
+            }
+        }
+        addFlightsPage.getSourceField().setText("");
+        addFlightsPage.getDestinationField().setText("");
+        addFlightsPage.getDepartureHourField().setText("");
+        addFlightsPage.getDurationField().setText("");
+        addFlightsPage.getPriceField().setText("");
     }
 
     private static final class SingletonHolder{
@@ -457,5 +471,4 @@ public class CentralFrame extends JFrame {
     public RegisterPage getRegisterPage() {
         return registerPage;
     }
-
 }

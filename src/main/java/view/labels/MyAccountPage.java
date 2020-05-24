@@ -208,14 +208,6 @@ public class MyAccountPage extends JLabel {
         return changePasswordButton;
     }
 
-    public JLabel getUsernameLabel() {
-        return usernameLabel;
-    }
-
-    public JLabel getEmailLabel() {
-        return emailLabel;
-    }
-
     public JLabel getChangeUsernameLabel() {
         return changeUsernameLabel;
     }

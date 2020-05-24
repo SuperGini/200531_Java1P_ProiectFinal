@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -22,9 +22,9 @@ public class AddFlightsPage extends JLabel {
     private JLabel priceLabel;
     private JLabel dayLabel;
     private JLabel worldIcon;
-    private JTextField sursaField;
-    private JTextField destinatieField;
-    private JTextField oraPlecareField;
+    private JTextField sourceField;
+    private JTextField destinationField;
+    private JTextField departureHourField;
     private JTextField durationField;
     private JTextField priceField;
     private JButton addFlightButton;
@@ -33,9 +33,9 @@ public class AddFlightsPage extends JLabel {
     private String[] days = {"Luni", "Marti", "Miercuri", "Joi", "Vineri", "Samabata", "Duminica"};
 
 
-    private List<JCheckBox> buttons;
+    private Map<Integer, JCheckBox> buttons;
     private List<JLabel> labels;
-    private List<JButton> miniButtons;
+
 
 
     private int width = 1125;
@@ -94,9 +94,9 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initSursaField() {
-        sursaField = new JTextField();
-        sursaField.setBounds(20, 60, 200, 25);
-        transparentPanel.add(sursaField);
+        sourceField = new JTextField();
+        sourceField.setBounds(20, 60, 200, 25);
+        transparentPanel.add(sourceField);
     }
 
     private void initDestinatieLabel() {
@@ -106,9 +106,9 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initDestiantieField() {
-        destinatieField = new JTextField();
-        destinatieField.setBounds(300, 60, 200, 25);
-        transparentPanel.add(destinatieField);
+        destinationField = new JTextField();
+        destinationField.setBounds(300, 60, 200, 25);
+        transparentPanel.add(destinationField);
     }
 
     private void initOraPlecareLabel() {
@@ -118,9 +118,9 @@ public class AddFlightsPage extends JLabel {
     }
 
     private void initOraPlecareField() {
-        oraPlecareField = new JTextField();
-        oraPlecareField.setBounds(20, 110, 200, 25);
-        transparentPanel.add(oraPlecareField);
+        departureHourField = new JTextField();
+        departureHourField.setBounds(20, 110, 200, 25);
+        transparentPanel.add(departureHourField);
     }
 
     private void initDurataLabel() {
@@ -150,14 +150,14 @@ public class AddFlightsPage extends JLabel {
 
 
     private void initCheckbox() {
-        buttons = new ArrayList<>();
+        buttons = new HashMap<>();
         for (int i = 0; i < 7; i++) {
             String day = days[i];
             checkBoxButton = new JCheckBox(day);
             checkBoxButton.setOpaque(false);
             checkBoxButton.setBounds(20, 150 + (i * 25), 20, 20);
             transparentPanel.add(checkBoxButton);
-            buttons.add(checkBoxButton);
+            buttons.put(i, checkBoxButton);
         }
     }
 
@@ -174,22 +174,21 @@ public class AddFlightsPage extends JLabel {
     private void initWorldIcon(){
         String  image = "./src/main/resources/icons/worldmap1.png";
         worldIcon = new SetSizeAndImage(550,170,305,159, image);
-        String  gif = "./src/main/resources/icons/worldmap1.png";
         transparentPanel.add(worldIcon);
     }
 
     public boolean valid() {
-        if (sursaField.getText().length() < 3) {
+        if (sourceField.getText().length() < 3) {
             showMessage("Source must have minimum three characters");
             return false;
         }
 
-        if (destinatieField.getText().length() < 3) {
+        if (destinationField.getText().length() < 3) {
             showMessage("Destination must have minimum three characters");
             return false;
         }
 
-        if (sursaField.getText().equals(destinatieField.getText())) {
+        if (sourceField.getText().equals(destinationField.getText())) {
             showMessage("Source and destination must be different");
             return false;
         }
@@ -200,7 +199,7 @@ public class AddFlightsPage extends JLabel {
         }
 
 
-        if (timeValidation(oraPlecareField.getText())) {
+        if (timeValidation(departureHourField.getText())) {
             showMessage("Departure time invalid format. Valid format HH:mm");
             return false;
         }
@@ -230,18 +229,19 @@ public class AddFlightsPage extends JLabel {
     //todo de vazut cum selectez sursa si destinatie din baza ca sa nu mai trebuiasca sa fac stream
     public boolean validSursaAndDestiantie() {
 
-        List<Flight> flights = FlightController.getInstance().getFlightList(sursaField.getText())
+        List<Flight> flights = FlightController.getInstance().getFlightList(sourceField.getText())
                 .stream()
-                .filter(s -> s.getDestinatie().equals(destinatieField.getText()))
+                .filter(s -> s.getDestinatie().equals(destinationField.getText()))
                 .collect(Collectors.toList());
 
         return !flights.isEmpty();
     }
 
     private boolean boxesChecked() {
-        List<String> string = buttons.stream()
-                .filter(AbstractButton::isSelected)
-                .map(AbstractButton::getActionCommand)
+        List<String> string = buttons.entrySet()
+                .stream()
+                .filter(e -> e.getValue().isSelected())
+                .map(e -> e.getValue().getActionCommand())
                 .collect(Collectors.toList());
 
         return string.isEmpty();
@@ -273,16 +273,19 @@ public class AddFlightsPage extends JLabel {
     }
 
     public void addFlight() {
-        String sursa = sursaField.getText();
-        String destinatie = destinatieField.getText();
-        String oraPlecare = oraPlecareField.getText();
-        String oraSosire = getOraSosire(oraPlecareField.getText(), durationField.getText());
+        String sursa = sourceField.getText();
+        String destinatie = destinationField.getText();
+        String oraPlecare = departureHourField.getText();
+        String oraSosire = getOraSosire(departureHourField.getText(), durationField.getText());
         double pret = Double.parseDouble(priceField.getText());
 
-        String zile = buttons.stream()
-                .filter(AbstractButton::isSelected)
-                .map(AbstractButton::getActionCommand)
+        String zile = buttons.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(Map.Entry::getKey))
+                .filter(e -> e.getValue().isSelected())
+                .map( e -> e.getValue().getActionCommand())
                 .collect(Collectors.joining(","));
+
 
         Flight flight = new Flight.Builder()
                 .setSursa(sursa)
@@ -313,5 +316,33 @@ public class AddFlightsPage extends JLabel {
 
     public JButton getAddFlightButton() {
         return addFlightButton;
+    }
+
+    public JTextField getSourceField() {
+        return sourceField;
+    }
+
+    public JTextField getDestinationField() {
+        return destinationField;
+    }
+
+    public JTextField getDepartureHourField() {
+        return departureHourField;
+    }
+
+    public JTextField getDurationField() {
+        return durationField;
+    }
+
+    public JTextField getPriceField() {
+        return priceField;
+    }
+
+    public JCheckBox getCheckBoxButton() {
+        return checkBoxButton;
+    }
+
+    public Map<Integer, JCheckBox> getButtons() {
+        return buttons;
     }
 }

@@ -57,7 +57,6 @@ public class LoadingFrame extends JFrame{
         setSize(width,height);
         setLocationRelativeTo(null);
         setUndecorated(true);
-
         panel = new JPanel();
         panel.setLayout(null);
         panel.setSize(width, height);
@@ -85,10 +84,8 @@ public class LoadingFrame extends JFrame{
         startButton = new JButton();
         startButton.setBounds(257,190,30,30);
         startButton.setContentAreaFilled(false);
-      //  startButton.setBorderPainted(false);
         backgroundLabel2.add(startButton);
         startButton.setIcon(greenImage);
-
         startButton.addActionListener(e-> startSoundLoadingBarAndLoadingLabel());
     }
 
@@ -102,9 +99,7 @@ public class LoadingFrame extends JFrame{
         closeButton.setBounds(297,190,30,30);
         closeButton.setContentAreaFilled(false);
         closeButton.setOpaque(false);
-      //  closeButton.setBorderPainted(false);
         backgroundLabel2.add(closeButton);
-
         closeButton.addActionListener(e-> exitProgram());
     }
 
@@ -129,31 +124,15 @@ public class LoadingFrame extends JFrame{
     private void initLoginButton(){
         loginButton = new JButton("login");
         loginButton.setBounds(-110,210,100,20);
-      //  loginButton.setForeground(Color.WHITE);
-       // loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-      //  loginButton.setBackground(new Color(255,255,255,30));
         backgroundLabel1.add(loginButton);
-
-        loginButton.addActionListener(e->{
-        //    CentralFrame.getInstance();
-            timer3.start();
-            dispose();
-        });
+        loginButton.addActionListener(e -> toLoginPage());
     }
 
     private void initRegisterButton() {
         registerButton = new JButton("register");
-
         registerButton.setBounds(594, 210, 100, 20);
-//        registerButton.setForeground(Color.WHITE);
-//        registerButton.setBackground(new Color(255, 255, 255, 30));
         backgroundLabel1.add(registerButton);
-
-        registerButton.addActionListener(e ->{
-         //   CentralFrame.getInstance();
-            timer4.start();
-            dispose();
-        });
+        registerButton.addActionListener(e -> toRegisterPage());
     }
 
     private void initExitButton(){
@@ -184,17 +163,18 @@ public class LoadingFrame extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if(i == 500){
+                    slideEfect.jButtonXRight(297,600,17,1,closeButton);
+                    slideEfect.jButtonXLeft(257,-40,17,1,startButton);
+                }
+
                 if(i == 1000){
                     timerLoadingBar.stop();
                     timerLoadingLabel.stop();
                     loadingLabel.setText("starting");
                     soundPlay.getSound().stop();
                     slideEfect.jLabelYUp(0,-260,35,2,backgroundLabel2);
-                }
-                if(i == 500){
-
-                    slideEfect.jButtonXRight(297,600,17,1,closeButton);
-                    slideEfect.jButtonXLeft(257,-40,17,1,startButton);
                 }
                 i++;
                 loadingBar.setValue(i);
@@ -243,19 +223,13 @@ public class LoadingFrame extends JFrame{
         soundPlay.getSound().close();
     }
 
-    Timer timer3 = new Timer(0, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            slideEfect.jLabelYDown(-1100,0,10,4, CentralFrame.getInstance().getLoginPage());
-            timer3.stop();
-        }
-    });
+    private void toLoginPage(){
+        slideEfect.jLabelYDown(-1100,0,10,4, CentralFrame.getInstance().getLoginPage());
+        dispose();
+    }
 
-    Timer timer4 = new Timer(0, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            slideEfect.jLabelYDown(-1100,0,10,4, CentralFrame.getInstance().getRegisterPage());
-            timer4.stop();
-        }
-    });
+    private void toRegisterPage(){
+        slideEfect.jLabelYDown(-1100,0,10,4, CentralFrame.getInstance().getRegisterPage());
+        dispose();
+    }
 }

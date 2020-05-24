@@ -106,12 +106,4 @@ public class AuditPage extends JLabel{
             auditTable.getColumnModel().getColumn(i).setMinWidth(266);
         }
     }
-
-    public DefaultTableModel getModel() {
-        return model;
-    }
-
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
 }

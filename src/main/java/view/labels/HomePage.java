@@ -146,17 +146,12 @@ public class HomePage extends JLabel {
         service.scheduleWithFixedDelay(r, 0, 1, TimeUnit.SECONDS);
     }
 
-
     public ScheduledExecutorService getService() {
         return service;
     }
 
     public JButton getAddFlight() {
         return addFlight;
-    }
-
-    public DefaultTableModel getModel() {
-        return model;
     }
 
     public JTable getFlightTable() {
@@ -192,7 +187,6 @@ class ButtonRenderer extends JButton implements TableCellRenderer{
         return this;
     }
 }
-
 
 class ButtonEditor extends DefaultCellEditor{
 
