@@ -22,7 +22,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-//TODO sa vedem daca mai e nevoie sa fie CentralFrame singleton class
 
 public class CentralFrame extends JFrame {
 
@@ -178,7 +177,7 @@ public class CentralFrame extends JFrame {
         homePage = HomePage.getInstance();
         backgroundLabel.add(homePage);
 
-        homePage.getAddFlight().addActionListener(e->addFlightButton());
+        homePage.getAddFlight().addActionListener(e-> mainPageaddFlightButton());
     }
 
     private void initMyAccountPage(){
@@ -231,38 +230,6 @@ public class CentralFrame extends JFrame {
             }
         });
     }
-
-//    int count  =0;
-//    int lastIndex;
-//    int beforeLastIndex;
-    //todo de rezolvat bug backbutton cand dau back si foward si iar back
-    // nu o ia de la ultima pagina afisata ci de unde a ramas contorul
-//    public void backAgain(List<JLabel> list, String action){
-//
-//         lastIndex = list.size() - count -1;
-//         beforeLastIndex = lastIndex - 1;
-//
-//        if(loginPage.getY() !=0 && list.get(lastIndex).getY() == 0){  //-> anti spam button:D
-//            count++;
-//
-//            if(lastIndex  > 1){
-//                oneLabelUpOneLabelDown(list.get(beforeLastIndex));
-//            }
-//
-//            if(lastIndex == 1){
-//                moveTwoLabelsDown(list.get(beforeLastIndex));
-//                count =0;
-//            }
-//
-//            if((lastIndex > 1) && (list.get(beforeLastIndex) == loginPage)){
-//
-//                moveTwoLabelsDown(loginPage);
-//            }
-//        }
-//    }
-//
-
-
 
     public void moveLoginRegisterPage(JLabel up){
         pages = getPages();
@@ -329,14 +296,6 @@ public class CentralFrame extends JFrame {
         return pages;
     }
 
-
-
-
-
-
-
-
-
     private void menuBarHomePage(){
         if(homePage.getY() == 1100){
             log.createAuditLog("HOME PAGE:");
@@ -385,9 +344,9 @@ public class CentralFrame extends JFrame {
         }
     }
 
-    private void addFlightButton(){
+    private void mainPageaddFlightButton(){
         oneLabelUpOneLabelDown(addFlightsPage);
-        log.createAuditLog("ADD FLIGHT PAge");
+        log.createAuditLog("ADD FLIGHT PAGE");
         addPageToBackButton(addFlightsPage);
     }
 
@@ -450,7 +409,10 @@ public class CentralFrame extends JFrame {
             addFlightsPage.addFlight();
             addFlightsPage.resetFields();
             homePage.tableData();
+            oneLabelUpOneLabelDown(homePage);
             log.createAuditLog("ADDED A FLIGHT");
+            log.createAuditLog("MAIN PAGE");
+            addPageToBackButton(homePage);
         }
     }
 
@@ -492,13 +454,11 @@ public class CentralFrame extends JFrame {
                             setListIterator =true;
                         }
 
-
                         if(listIterator.hasPrevious()){
                             oneLabelUpOneLabelDown(listIterator.previous());
                             forward = true;
                         }
                     }
-
                     break;
 
                 case "forward":
@@ -524,7 +484,6 @@ public class CentralFrame extends JFrame {
                             oneLabelUpOneLabelDown(listIterator.next());
                             back = false;
                         }
-
                     }
                     break;
             }
@@ -555,5 +514,4 @@ public class CentralFrame extends JFrame {
     public void setSetListIterator(boolean setListIterator) {
         this.setListIterator = setListIterator;
     }
-
 }
