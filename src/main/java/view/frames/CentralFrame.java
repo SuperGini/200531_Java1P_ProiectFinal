@@ -309,7 +309,7 @@ public class CentralFrame extends JFrame {
     private void menuBarMyAccountPage(){
         if(myAccountPage.getY() == 1100){
             oneLabelUpOneLabelDown(myAccountPage);
-            log.createAuditLog("MY ACCOUNT"); //todo de verificat daca acum e logul ok
+            log.createAuditLog("MY ACCOUNT");
             addPageToBackButton(myAccountPage);
 
         }
@@ -391,6 +391,8 @@ public class CentralFrame extends JFrame {
             moveTwoLabelsDown(loginPage);
             log.createAuditLog("CHANGED PASSWORD");
             count2 = 0;
+            labelbackButton1.clear();
+            setListIterator = true;
         }else{
             changePasswordPage.getPasswordField().setText("");
             changePasswordPage.getConfirmPasswordField().setText("");
@@ -447,18 +449,23 @@ public class CentralFrame extends JFrame {
                         }
                     }
 
-                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex() + 1).getY() == 0){ // <- anti-spam button
-                        if(listIterator.previousIndex() == 0){
-                            moveTwoLabelsDown(listIterator.previous());
-                            list.clear();
-                            setListIterator =true;
-                        }
+                    if(!(listIterator.nextIndex() >= list.size())){
 
-                        if(listIterator.hasPrevious()){
-                            oneLabelUpOneLabelDown(listIterator.previous());
-                            forward = true;
+                        if(loginPage.getY() !=0 && list.get(listIterator.nextIndex()).getY() == 0){ // <- anti-spam button
+                            if(listIterator.previousIndex() == 0){
+                                moveTwoLabelsDown(listIterator.previous());
+                                list.clear();
+                                setListIterator =true;
+                            }
+
+                            if(listIterator.hasPrevious()){
+                                oneLabelUpOneLabelDown(listIterator.previous());
+                                forward = true;
+                            }
                         }
                     }
+
+
                     break;
 
                 case "forward":
@@ -470,17 +477,15 @@ public class CentralFrame extends JFrame {
                         if(loginPage.getY() !=0 && list.get(listIterator.nextIndex()).getY() == 0) { //<- anti-spam button
 
                             if (listIterator.hasNext()) {
-                                System.out.println("get next index: " + listIterator.nextIndex());
                                 listIterator.next();
                                 forward = false;
                             }
                         }
                     }
 
-                    if(loginPage.getY() !=0 && list.get(listIterator.nextIndex() - 1).getY() == 0){ // <- anti-spam button
+                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0){ // <- anti-spam button
 
                         if(listIterator.hasNext()){
-                            System.out.println("poz iterator y: " + listIterator.nextIndex());
                             oneLabelUpOneLabelDown(listIterator.next());
                             back = false;
                         }

@@ -14,8 +14,6 @@ public class AuditDao {
     private Connection conection;
 
     private PreparedStatement createLog;
-    private PreparedStatement findLog;
-    private PreparedStatement findPersonById;
     private PreparedStatement lastUserAction;
     private PreparedStatement showAuditLog;
 
@@ -27,8 +25,6 @@ public class AuditDao {
 
         try {
             createLog = connection.prepareStatement("INSERT INTO audit VALUES (null , ?, ?, ?, ?)");
-            findLog = connection.prepareStatement("SELECT * FROM audit WHERE person_id" );
-          //  findPersonById = conection.prepareStatement("SELECT * FROM ");
             lastUserAction = connection.prepareStatement("SELECT * FROM audit WHERE username =? AND id = ( SELECT MAX(id) FROM audit )");
             showAuditLog = connection.prepareStatement("SELECT * FROM audit WHERE username =? ");
         } catch (SQLException e) {

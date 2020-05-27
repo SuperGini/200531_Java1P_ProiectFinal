@@ -28,9 +28,11 @@ public class ConnectionManager {
 
     private ConnectionManager(){
 
-
         try {
-            connection = DriverManager.getConnection(url,"root", "");
+
+            if (url != null) {
+                connection = DriverManager.getConnection(url,"root", "");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
