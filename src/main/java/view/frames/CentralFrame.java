@@ -9,16 +9,14 @@ import view.labels.*;
 import view.menubar.MenuBar;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,9 +45,12 @@ public class CentralFrame extends JFrame {
     private List<JLabel> pages;
     private List<JButton> minimizeButtons;
     private JButton miniButton;
-    private int count;
-    private int count2;
     private Timer timer5;
+    private int count2;
+    private boolean setListIterator = true;
+    private boolean forward = false;
+    private boolean back = true;
+
     private int width = 1125;
     private int height = 750;
     private int posX =0, posY = 0;
@@ -57,7 +58,9 @@ public class CentralFrame extends JFrame {
     private AnimationClass slideEfect = new AnimationClass();
     private ScheduledExecutorService service;
     private Random random = new Random();
-    private List<JLabel> labelsBackButton = new ArrayList<>();
+
+    private List<JLabel> labelbackButton1 = new LinkedList<>();
+    private  ListIterator<JLabel> listIterator;
 
 
 
@@ -129,20 +132,24 @@ public class CentralFrame extends JFrame {
 
         minimizeButtons = new ArrayList<>();
 
-        for(int i = 0; i < 3 ; i++){
-            miniButton = new MiniButtons(1044 + i*27,0,miniGifs.get(i));
+        for(int i = 0; i < 4 ; i++){
+            miniButton = new MiniButtons(1017 + i*27,0,miniGifs.get(i));
             minimizeButtons.add(miniButton);
             backgroundLabel.add(miniButton);
+
         }
-        minimizeButtons.get(0).addActionListener(e -> letsGoBack() );
-        minimizeButtons.get(1).addActionListener(e -> setExtendedState(JFrame.ICONIFIED) );
-        minimizeButtons.get(2).addActionListener(e -> closeProgram());
+        minimizeButtons.get(0).setActionCommand("back");
+        minimizeButtons.get(1).setActionCommand("forward");
+        minimizeButtons.get(0).addActionListener(e -> hatzInSpateHatzInFata( labelbackButton1, "back" ));
+        minimizeButtons.get(1).addActionListener( e-> hatzInSpateHatzInFata(labelbackButton1, "forward"));
+        minimizeButtons.get(2).addActionListener(e -> setExtendedState(JFrame.ICONIFIED) );
+        minimizeButtons.get(3).addActionListener(e -> closeProgram());
     }
 
     private void initMenuBar(){
         menuBar = new MenuBar();
         menuBarLabel = new JLabel();
-        menuBarLabel.setBounds(0,-27,1044,27);
+        menuBarLabel.setBounds(0,-27,1017,27);
         menuBarLabel.add(menuBar);
         backgroundLabel.add(menuBarLabel);
 
@@ -225,31 +232,37 @@ public class CentralFrame extends JFrame {
         });
     }
 
+//    int count  =0;
+//    int lastIndex;
+//    int beforeLastIndex;
     //todo de rezolvat bug backbutton cand dau back si foward si iar back
     // nu o ia de la ultima pagina afisata ci de unde a ramas contorul
-    public void letsGoBack(){
+//    public void backAgain(List<JLabel> list, String action){
+//
+//         lastIndex = list.size() - count -1;
+//         beforeLastIndex = lastIndex - 1;
+//
+//        if(loginPage.getY() !=0 && list.get(lastIndex).getY() == 0){  //-> anti spam button:D
+//            count++;
+//
+//            if(lastIndex  > 1){
+//                oneLabelUpOneLabelDown(list.get(beforeLastIndex));
+//            }
+//
+//            if(lastIndex == 1){
+//                moveTwoLabelsDown(list.get(beforeLastIndex));
+//                count =0;
+//            }
+//
+//            if((lastIndex > 1) && (list.get(beforeLastIndex) == loginPage)){
+//
+//                moveTwoLabelsDown(loginPage);
+//            }
+//        }
+//    }
+//
 
-        int lastIndex = labelsBackButton.size() - count -1;
-        int beforeLastIndex = labelsBackButton.size()  - count - 2;
 
-        if(loginPage.getY() !=0 && labelsBackButton.get(lastIndex).getY() == 0){  //-> anti spam button:D
-            count++;
-
-            if(lastIndex  > 1){
-                oneLabelUpOneLabelDown(labelsBackButton.get(beforeLastIndex));
-            }
-
-            if(lastIndex == 1){
-                count2 = 0;
-                moveTwoLabelsDown(loginPage);
-            }
-
-            if((lastIndex > 1) && (labelsBackButton.get(beforeLastIndex) == loginPage)){
-
-                moveTwoLabelsDown(loginPage);
-            }
-        }
-    }
 
     public void moveLoginRegisterPage(JLabel up){
         pages = getPages();
@@ -263,24 +276,22 @@ public class CentralFrame extends JFrame {
 
 
     public Timer getTimer5(){
-        timer5 = new Timer(20, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(count2 == 0){
-                    slideEfect.jLabelYDown(0,40,20,2,loginPage);
-                }
-                if(count2 == 22){
-                    slideEfect.jLabelYUp(40,-1100,10,4, loginPage);
-                    slideEfect.jLabelYUp(1100,0,10,4, homePage);
-                }
-
-                if( count2 == 150){
-                    slideEfect.jLabelYDown(-27,0,1,1,menuBarLabel);
-                    timer5.stop();
-                }
-                count2++;
+        timer5 = new Timer(20, e -> {
+            count2++;
+            if(count2 == 1){
+                slideEfect.jLabelYDown(0,40,20,2,loginPage);
             }
+            if(count2 == 22){
+                slideEfect.jLabelYUp(40,-1100,10,4, loginPage);
+                slideEfect.jLabelYUp(1100,0,10,4, homePage);
+            }
+
+            if( count2 == 150){
+                slideEfect.jLabelYDown(-27,0,1,1,menuBarLabel);
+                timer5.stop();
+                count2 =0;
+            }
+
         });
         return timer5;
     }
@@ -318,11 +329,21 @@ public class CentralFrame extends JFrame {
         return pages;
     }
 
+
+
+
+
+
+
+
+
     private void menuBarHomePage(){
         if(homePage.getY() == 1100){
             log.createAuditLog("HOME PAGE:");
             oneLabelUpOneLabelDown(homePage);
             addPageToBackButton(homePage);
+
+
         }
     }
 
@@ -331,6 +352,7 @@ public class CentralFrame extends JFrame {
             oneLabelUpOneLabelDown(myAccountPage);
             log.createAuditLog("MY ACCOUNT"); //todo de verificat daca acum e logul ok
             addPageToBackButton(myAccountPage);
+
         }
     }
 
@@ -338,20 +360,20 @@ public class CentralFrame extends JFrame {
         if(loginPage.getY() == -1100){
             moveTwoLabelsDown(loginPage);
             log.createAuditLog("LOG OUT:");
-            count2 = 0;
+            labelbackButton1.clear();
+            setListIterator = true;
         }
     }
 
     private void loginPageLoginButton(){
         if(loginPage.validCredential()){
-            count = 0;
-            labelsBackButton.clear();
             log.createAuditLog("LOGIN");
             log.createAuditLog("MAIN PAGE");
             getTimer5().start();
             new LogOutFunction().getLogOutTimer().start();
             addPageToBackButton(loginPage);
             addPageToBackButton(homePage);
+
         }
     }
 
@@ -417,18 +439,18 @@ public class CentralFrame extends JFrame {
     }
 
     private void flightPageCancelButton(){
+        addFlightsPage.resetFields();
         oneLabelUpOneLabelDown(homePage);
         log.createAuditLog("MAIN PAGE");
         addPageToBackButton(homePage);
     }
-        //todo de sters de vazut
+
     private void flightPageAddFlightButton(){
         if(addFlightsPage.valid()) {
             addFlightsPage.addFlight();
+            addFlightsPage.resetFields();
             homePage.tableData();
             log.createAuditLog("ADDED A FLIGHT");
-            resetFields();
-
         }
     }
 
@@ -439,22 +461,76 @@ public class CentralFrame extends JFrame {
     }
 
     private void addPageToBackButton(JLabel page){
-        labelsBackButton.add(page);
-        count = 0;
+        labelbackButton1.add(page);
+        listIterator = labelbackButton1.listIterator(labelbackButton1.size()-1);
     }
 
-    private void resetFields(){
-        for(Integer button : addFlightsPage.getButtons().keySet()){  //resets the selected checkbox
-            if(addFlightsPage.getButtons().get(button).isSelected()){
-                addFlightsPage.getButtons().get(button).setSelected(false);
+    private void hatzInSpateHatzInFata(List<JLabel> list, String action){
+
+        if(!list.isEmpty()){
+            if(setListIterator){
+                listIterator = list.listIterator(list.size()-1);
+                setListIterator =false;
+            }
+
+            switch(action){
+
+                case "back":
+                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0) { // <- anti-spam button
+                        if (!back) {
+                            if (listIterator.hasPrevious()) {
+                                listIterator.previous();
+                                back = true;
+                            }
+                        }
+                    }
+
+                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex() + 1).getY() == 0){ // <- anti-spam button
+                        if(listIterator.previousIndex() == 0){
+                            moveTwoLabelsDown(listIterator.previous());
+                            list.clear();
+                            setListIterator =true;
+                        }
+
+
+                        if(listIterator.hasPrevious()){
+                            oneLabelUpOneLabelDown(listIterator.previous());
+                            forward = true;
+                        }
+                    }
+
+                    break;
+
+                case "forward":
+                    if(listIterator == list.listIterator(list.size()-1) ){
+                        forward = false;
+                    }
+
+                    if(forward){
+                        if(loginPage.getY() !=0 && list.get(listIterator.nextIndex()).getY() == 0) { //<- anti-spam button
+
+                            if (listIterator.hasNext()) {
+                                System.out.println("get next index: " + listIterator.nextIndex());
+                                listIterator.next();
+                                forward = false;
+                            }
+                        }
+                    }
+
+                    if(loginPage.getY() !=0 && list.get(listIterator.nextIndex() - 1).getY() == 0){ // <- anti-spam button
+
+                        if(listIterator.hasNext()){
+                            System.out.println("poz iterator y: " + listIterator.nextIndex());
+                            oneLabelUpOneLabelDown(listIterator.next());
+                            back = false;
+                        }
+
+                    }
+                    break;
             }
         }
-        addFlightsPage.getSourceField().setText("");
-        addFlightsPage.getDestinationField().setText("");
-        addFlightsPage.getDepartureHourField().setText("");
-        addFlightsPage.getDurationField().setText("");
-        addFlightsPage.getPriceField().setText("");
     }
+
 
     private static final class SingletonHolder{
        public static final CentralFrame INSTANCE = new CentralFrame();
@@ -471,4 +547,13 @@ public class CentralFrame extends JFrame {
     public RegisterPage getRegisterPage() {
         return registerPage;
     }
+
+    public void setLabelbackButton1() {
+        this.labelbackButton1.clear();
+    }
+
+    public void setSetListIterator(boolean setListIterator) {
+        this.setListIterator = setListIterator;
+    }
+
 }

@@ -310,6 +310,19 @@ public class AddFlightsPage extends JLabel {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    public void resetFields(){
+        for(Integer button : buttons.keySet()){  //resets the selected checkbox
+            if(buttons.get(button).isSelected()){
+                buttons.get(button).setSelected(false);
+            }
+        }
+        sourceField.setText("");
+        destinationField.setText("");
+        departureHourField.setText("");
+        durationField.setText("");
+        priceField.setText("");
+    }
+
     public JButton getCancelButton() {
         return cancelButton;
     }

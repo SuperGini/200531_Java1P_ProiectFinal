@@ -136,7 +136,7 @@ public class LoadingFrame extends JFrame{
     }
 
     private void initExitButton(){
-        String filepath = "./src/main/resources/icons/miniGifs/3x.gif";
+        String filepath = "./src/main/resources/icons/x.gif";
         xButton = new MiniButtons(600,0, filepath);
         backgroundLabel1.add(xButton);
         xButton.addActionListener(e-> dispose());

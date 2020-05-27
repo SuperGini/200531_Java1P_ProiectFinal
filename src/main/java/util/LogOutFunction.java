@@ -43,9 +43,12 @@ public class LogOutFunction {
 
             System.out.println(t1 + "       " + t2);
             long elapsedMinutes = Duration.between(t1, t2).toMinutes();
-            if (elapsedMinutes == 15) {
+            if (elapsedMinutes == 1) {
                 logoutTimer.stop();
                 centralFrame. moveTwoLabelsDown(centralFrame.getLoginPage());
+                centralFrame.setSetListIterator(true);
+                centralFrame.setLabelbackButton1();
+
             }
             System.out.println(elapsedMinutes);
         }
