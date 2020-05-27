@@ -47,7 +47,7 @@ public class CentralFrame extends JFrame {
     private JButton miniButton;
     private Timer timer5;
     private int count2;
-    private boolean setListIterator = true;
+    private boolean x = true;
     private boolean forward = false;
     private boolean back = true;
 
@@ -109,7 +109,7 @@ public class CentralFrame extends JFrame {
     private void randomImageGenerator(){
         service = Executors.newSingleThreadScheduledExecutor();
         Runnable r = () -> backgroundLabel.setIcon(imageIcons().get(random.nextInt(imageIcons().size())));
-        service.scheduleAtFixedRate(r,60,60, TimeUnit.SECONDS);
+            service.scheduleAtFixedRate(r,60,60, TimeUnit.SECONDS);
     }
 
         //method 2
@@ -136,10 +136,8 @@ public class CentralFrame extends JFrame {
             miniButton = new MiniButtons(1017 + i*27,0,miniGifs.get(i));
             minimizeButtons.add(miniButton);
             backgroundLabel.add(miniButton);
-
         }
-        minimizeButtons.get(0).setActionCommand("back");
-        minimizeButtons.get(1).setActionCommand("forward");
+
         minimizeButtons.get(0).addActionListener(e -> hatzInSpateHatzInFata( labelbackButton1, "back" ));
         minimizeButtons.get(1).addActionListener( e-> hatzInSpateHatzInFata(labelbackButton1, "forward"));
         minimizeButtons.get(2).addActionListener(e -> setExtendedState(JFrame.ICONIFIED) );
@@ -231,38 +229,6 @@ public class CentralFrame extends JFrame {
             }
         });
     }
-
-//    int count  =0;
-//    int lastIndex;
-//    int beforeLastIndex;
-    //todo de rezolvat bug backbutton cand dau back si foward si iar back
-    // nu o ia de la ultima pagina afisata ci de unde a ramas contorul
-//    public void backAgain(List<JLabel> list, String action){
-//
-//         lastIndex = list.size() - count -1;
-//         beforeLastIndex = lastIndex - 1;
-//
-//        if(loginPage.getY() !=0 && list.get(lastIndex).getY() == 0){  //-> anti spam button:D
-//            count++;
-//
-//            if(lastIndex  > 1){
-//                oneLabelUpOneLabelDown(list.get(beforeLastIndex));
-//            }
-//
-//            if(lastIndex == 1){
-//                moveTwoLabelsDown(list.get(beforeLastIndex));
-//                count =0;
-//            }
-//
-//            if((lastIndex > 1) && (list.get(beforeLastIndex) == loginPage)){
-//
-//                moveTwoLabelsDown(loginPage);
-//            }
-//        }
-//    }
-//
-
-
 
     public void moveLoginRegisterPage(JLabel up){
         pages = getPages();
@@ -361,7 +327,7 @@ public class CentralFrame extends JFrame {
             moveTwoLabelsDown(loginPage);
             log.createAuditLog("LOG OUT:");
             labelbackButton1.clear();
-            setListIterator = true;
+            x = true;
         }
     }
 
@@ -468,35 +434,43 @@ public class CentralFrame extends JFrame {
     private void hatzInSpateHatzInFata(List<JLabel> list, String action){
 
         if(!list.isEmpty()){
-            if(setListIterator){
-                listIterator = list.listIterator(list.size()-1);
-                setListIterator =false;
+            if(x){
+                listIterator = list.listIterator(list.size());
+                x =false;
             }
 
             switch(action){
 
                 case "back":
                     if(loginPage.getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0) { // <- anti-spam button
-                        if (!back) {
+                        if (back) {
                             if (listIterator.hasPrevious()) {
                                 listIterator.previous();
-                                back = true;
+                                back = false;
                             }
                         }
+
                     }
 
-                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex() + 1).getY() == 0){ // <- anti-spam button
-                        if(listIterator.previousIndex() == 0){
-                            moveTwoLabelsDown(listIterator.previous());
-                            list.clear();
-                            setListIterator =true;
-                        }
-
-
+                    if(list.get(listIterator.previousIndex()) != loginPage && list.get(listIterator.nextIndex()).getY() == 0 ){
                         if(listIterator.hasPrevious()){
                             oneLabelUpOneLabelDown(listIterator.previous());
                             forward = true;
                         }
+
+                    }
+
+                    if(loginPage.getY() !=0 && list.get(listIterator.nextIndex()).getY() == 0){ // <- anti-spam button
+                        System.out.println("Index back: "+ listIterator.previousIndex());
+                        if(listIterator.hasPrevious()){
+                            moveTwoLabelsDown(listIterator.previous());
+                            list.clear();
+                            System.out.println("marime Lista: " + list.size());
+                            x =true;
+
+                       }
+
+
                     }
 
                     break;
@@ -552,8 +526,8 @@ public class CentralFrame extends JFrame {
         this.labelbackButton1.clear();
     }
 
-    public void setSetListIterator(boolean setListIterator) {
-        this.setListIterator = setListIterator;
+    public void setX(boolean x) {
+        this.x = x;
     }
 
 }
