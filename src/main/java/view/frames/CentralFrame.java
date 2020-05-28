@@ -8,15 +8,15 @@ import view.buttons.MiniButtons;
 import view.labels.*;
 import view.menubar.MenuBar;
 
-import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -57,7 +57,6 @@ public class CentralFrame extends JFrame {
     private AnimationClass slideEfect = new AnimationClass();
     private ScheduledExecutorService service;
     private Random random = new Random();
-
     private List<JLabel> labelbackButton1 = new LinkedList<>();
     private  ListIterator<JLabel> listIterator;
 
@@ -94,7 +93,6 @@ public class CentralFrame extends JFrame {
     private String getRandomBacgroundPicture(){
         picture = new Picture();
         List<String> strings = picture.getPictures(filePath);
-
         return   strings.get(random.nextInt(strings.size()));
     }
 
@@ -113,18 +111,18 @@ public class CentralFrame extends JFrame {
 
         //method 2
     private List<ImageIcon> imageIcons(){
-         return  picture.getPictures(filePath)
+       return picture.getPictures(filePath)
                 .stream()
                 .map(this::image)
                 .collect(Collectors.toList());
     }
+
         //method 3
     private ImageIcon image(String image){
         Image image1 = new ImageIcon(image)
                 .getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_SMOOTH);
         return new ImageIcon(image1);
     }
-
 
     private void initCloseMinimizeBackButton(){
        List<String> miniGifs = picture.getMiniGifs();
@@ -137,12 +135,19 @@ public class CentralFrame extends JFrame {
             backgroundLabel.add(miniButton);
 
         }
-        minimizeButtons.get(0).setActionCommand("back");
-        minimizeButtons.get(1).setActionCommand("forward");
+        minimizeButtons.get(0).setToolTipText("back");
+        minimizeButtons.get(1).setToolTipText("forward");
+        minimizeButtons.get(2).setToolTipText("minimize");
+        minimizeButtons.get(3).setToolTipText("close");
         minimizeButtons.get(0).addActionListener(e -> hatzInSpateHatzInFata( labelbackButton1, "back" ));
         minimizeButtons.get(1).addActionListener( e-> hatzInSpateHatzInFata(labelbackButton1, "forward"));
-        minimizeButtons.get(2).addActionListener(e -> setExtendedState(JFrame.ICONIFIED) );
+        minimizeButtons.get(2).addActionListener(e -> minimizeButton() );
         minimizeButtons.get(3).addActionListener(e -> closeProgram());
+    }
+
+    private void minimizeButton(){
+        setExtendedState(JFrame.ICONIFIED);
+        log.createAuditLog("MINIMIZE PAGE");
     }
 
     private void initMenuBar(){
@@ -243,6 +248,7 @@ public class CentralFrame extends JFrame {
 
 
     public Timer getTimer5(){
+
         timer5 = new Timer(20, e -> {
             count2++;
             if(count2 == 1){
@@ -258,7 +264,6 @@ public class CentralFrame extends JFrame {
                 timer5.stop();
                 count2 =0;
             }
-
         });
         return timer5;
     }
@@ -301,8 +306,6 @@ public class CentralFrame extends JFrame {
             log.createAuditLog("HOME PAGE:");
             oneLabelUpOneLabelDown(homePage);
             addPageToBackButton(homePage);
-
-
         }
     }
 
@@ -426,7 +429,7 @@ public class CentralFrame extends JFrame {
 
     private void addPageToBackButton(JLabel page){
         labelbackButton1.add(page);
-        listIterator = labelbackButton1.listIterator(labelbackButton1.size()-1);
+        setListIterator = true;
     }
 
     private void hatzInSpateHatzInFata(List<JLabel> list, String action){
@@ -460,12 +463,11 @@ public class CentralFrame extends JFrame {
 
                             if(listIterator.hasPrevious()){
                                 oneLabelUpOneLabelDown(listIterator.previous());
+                                log.createAuditLog("BACK BUTTON");
                                 forward = true;
                             }
                         }
                     }
-
-
                     break;
 
                 case "forward":
@@ -487,6 +489,7 @@ public class CentralFrame extends JFrame {
 
                         if(listIterator.hasNext()){
                             oneLabelUpOneLabelDown(listIterator.next());
+                            log.createAuditLog("FORWARD BUTTON");
                             back = false;
                         }
                     }
