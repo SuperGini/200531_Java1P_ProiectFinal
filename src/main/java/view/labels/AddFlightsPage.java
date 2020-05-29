@@ -331,31 +331,8 @@ public class AddFlightsPage extends JLabel {
         return addFlightButton;
     }
 
-    public JTextField getSourceField() {
-        return sourceField;
-    }
-
-    public JTextField getDestinationField() {
-        return destinationField;
-    }
-
-    public JTextField getDepartureHourField() {
-        return departureHourField;
-    }
-
-    public JTextField getDurationField() {
-        return durationField;
-    }
-
-    public JTextField getPriceField() {
-        return priceField;
-    }
-
-    public JCheckBox getCheckBoxButton() {
-        return checkBoxButton;
-    }
-
-    public Map<Integer, JCheckBox> getButtons() {
-        return buttons;
+    @Override
+    public String toString() {
+        return "ADD FLIGHT PAGE";
     }
 }

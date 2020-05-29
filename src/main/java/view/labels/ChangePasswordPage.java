@@ -135,4 +135,9 @@ public class ChangePasswordPage extends JLabel {
     public JPasswordField getConfirmPasswordField() {
         return confirmPasswordField;
     }
+
+    @Override
+    public String toString() {
+        return "CHANGE PASSWORD PAGE";
+    }
 }

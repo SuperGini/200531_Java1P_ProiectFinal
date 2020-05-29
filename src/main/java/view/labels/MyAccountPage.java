@@ -243,4 +243,9 @@ public class MyAccountPage extends JLabel {
     public static MyAccountPage getInstance(){
         return SingletonHolder.INSTANCE;
     }
+
+    @Override
+    public String toString() {
+        return "MY ACCOUNT PAGE";
+    }
 }

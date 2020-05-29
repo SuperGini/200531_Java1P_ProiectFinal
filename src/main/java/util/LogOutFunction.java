@@ -25,8 +25,8 @@ public class LogOutFunction {
     }
 
     public Timer getLogOutTimer(){
-        int chechInterval =60 * 1000;
-        logoutTimer = new Timer(chechInterval, e -> startCountDown());
+        int checkInterval =60 * 1000;
+        logoutTimer = new Timer(checkInterval, e -> startCountDown());
         return logoutTimer;
     }
 
@@ -42,12 +42,12 @@ public class LogOutFunction {
             LocalDateTime t2 = LocalDateTime.now();
 
             long elapsedMinutes = Duration.between(t1, t2).toMinutes();
+
             if (elapsedMinutes == 15) {
                 logoutTimer.stop();
                 centralFrame. moveTwoLabelsDown(centralFrame.getLoginPage());
                 centralFrame.setSetListIterator(true);
-                centralFrame.setLabelbackButton1();
-
+                centralFrame.setBackAndForwardList();
             }
         }
     }

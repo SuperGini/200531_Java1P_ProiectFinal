@@ -248,6 +248,8 @@ public class RegisterPage extends JLabel {
         usernameField.requestFocus();
     }
 
-
-
+    @Override
+    public String toString() {
+        return "REGISTER PAGE";
+    }
 }

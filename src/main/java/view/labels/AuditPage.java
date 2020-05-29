@@ -106,4 +106,9 @@ public class AuditPage extends JLabel{
             auditTable.getColumnModel().getColumn(i).setMinWidth(266);
         }
     }
+
+    @Override
+    public String toString() {
+        return "AUDIT PAGE";
+    }
 }

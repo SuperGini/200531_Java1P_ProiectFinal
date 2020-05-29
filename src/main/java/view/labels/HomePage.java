@@ -1,5 +1,6 @@
 package view.labels;
 
+import controller.AuditController;
 import controller.FlightController;
 import models.Flight;
 import view.buttons.MiniButtons;
@@ -165,6 +166,11 @@ public class HomePage extends JLabel {
     public static HomePage getInstance(){
         return SingletonHolder.INSTANCE;
     }
+
+    @Override
+    public String toString() {
+        return "HOME PAGE";
+    }
 }
 
 
@@ -207,6 +213,7 @@ class ButtonEditor extends DefaultCellEditor{
             if(id >=0){
                 if(option == JOptionPane.YES_OPTION){
                     FlightController.getInstance().deleteFlight(id);
+                    AuditController.getInstance().createAuditLog("A FLIGHT WAS DELETED");
                     homePage.tableData();
                 }
             }
@@ -229,6 +236,7 @@ class ButtonEditor extends DefaultCellEditor{
     protected void fireEditingStopped() {
         super.fireEditingStopped();
     }
+
 }
 
 

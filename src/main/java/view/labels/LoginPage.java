@@ -149,6 +149,11 @@ public class LoginPage extends JLabel {
         passwordField.setText("");
         usernameField.requestFocus();
     }
+
+    @Override
+    public String toString() {
+        return "LOGIN";
+    }
 }
 
 
