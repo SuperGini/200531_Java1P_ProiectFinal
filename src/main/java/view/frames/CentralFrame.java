@@ -69,7 +69,7 @@ public class CentralFrame extends JFrame {
         initMenuBar();
         initLoginPage();
         initRegisterPage();
-        initMainPage();
+        initHomePage();
         initAddFlightsPage();
         initMyAccountPage();
         initChangePasswordPage();
@@ -179,8 +179,8 @@ public class CentralFrame extends JFrame {
         registerPage.getLoginButton().addActionListener(e -> moveLoginRegisterPage(registerPage));
     }
 
-    private void initMainPage(){
-        homePage = HomePage.getInstance();
+    private void initHomePage(){
+        homePage = new HomePage();
         backgroundLabel.add(homePage);
 
         homePage.getAddFlight().addActionListener(e-> mainPageaddFlightButton());
@@ -517,5 +517,21 @@ public class CentralFrame extends JFrame {
 
     public void setSetListIterator(boolean setListIterator) {
         this.setListIterator = setListIterator;
+    }
+
+    public HomePage getHomePage() {
+        return homePage;
+    }
+
+    public void setHomePage(HomePage homePage) {
+        this.homePage = homePage;
+    }
+
+    public MyAccountPage getMyAccountPage() {
+        return myAccountPage;
+    }
+
+    public void setMyAccountPage(MyAccountPage myAccountPage) {
+        this.myAccountPage = myAccountPage;
     }
 }

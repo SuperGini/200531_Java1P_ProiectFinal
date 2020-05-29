@@ -4,6 +4,7 @@ import controller.AuditController;
 import controller.FlightController;
 import models.Flight;
 import view.buttons.MiniButtons;
+import view.frames.CentralFrame;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ public class HomePage extends JLabel {
     private int height = 750;
 
 
-    private HomePage(){
+    public HomePage(){
         this.setBounds(0,1100,width, height);
         initTransparentPanel ();
 
@@ -159,14 +160,6 @@ public class HomePage extends JLabel {
         return flightTable;
     }
 
-    private static final class SingletonHolder{
-        public static HomePage INSTANCE = new HomePage();
-    }
-
-    public static HomePage getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
-
     @Override
     public String toString() {
         return "HOME PAGE";
@@ -197,6 +190,8 @@ class ButtonRenderer extends JButton implements TableCellRenderer{
 class ButtonEditor extends DefaultCellEditor{
 
     protected JButton btn;
+    private HomePage homePage;
+
     public ButtonEditor(JTextField txt) {
         super(txt);
 
@@ -207,7 +202,8 @@ class ButtonEditor extends DefaultCellEditor{
 
             int option = JOptionPane.showConfirmDialog(
                     null,"Delete Flight?","confirm box",JOptionPane.YES_NO_OPTION);
-            HomePage homePage = HomePage.getInstance();
+
+            homePage = CentralFrame.getInstance().getHomePage();
             int row = homePage.getFlightTable().getSelectedRow();
             int id = (Integer) homePage.getFlightTable().getModel().getValueAt(row,0);
             if(id >=0){
