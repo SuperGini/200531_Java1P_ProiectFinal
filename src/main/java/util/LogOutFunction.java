@@ -18,10 +18,12 @@ public class LogOutFunction {
     private AuditController log;
     private CentralFrame centralFrame;
     private Timer logoutTimer;
+    private BackAndForward backAndForward;
 
     public LogOutFunction(){
         log = AuditController.getInstance();
         centralFrame = CentralFrame.getInstance();
+        backAndForward = new BackAndForward();
     }
 
     public Timer getLogOutTimer(){
@@ -46,8 +48,8 @@ public class LogOutFunction {
             if (elapsedMinutes == 15) {
                 logoutTimer.stop();
                 centralFrame. moveTwoLabelsDown(centralFrame.getLoginPage());
-                centralFrame.setSetListIterator(true);
                 centralFrame.setBackAndForwardList();
+                backAndForward.setSetListIterator(true);
             }
         }
     }

@@ -39,7 +39,7 @@ public class BackAndForward {
 
                 case "back":
                     if(centralFrame.getLoginPage().getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0) { // <- anti-spam button
-                 //       System.out.println("back " + back);
+                        System.out.println("back " + back);
                         if (!back) {
                             if (listIterator.hasPrevious()) {
                                 listIterator.previous();
@@ -56,9 +56,9 @@ public class BackAndForward {
                                 list.clear();
                                 setListIterator =true;
                             }
-                      //      System.out.println(" back index" + listIterator.previousIndex());
+                            System.out.println(" back index" + listIterator.previousIndex());
                             if(listIterator.hasPrevious()){
-                                centralFrame.oneLabelUpOneLabelDown(listIterator.previous());
+                                centralFrame.oneLabelUpOneLabelDown(listIterator.previous(), false);
                                 forward = true;
                             }
                         }
@@ -78,9 +78,9 @@ public class BackAndForward {
                     }
 
                     if(centralFrame.getLoginPage().getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0){ // <- anti-spam button
-              //          System.out.println("forward index: " + listIterator.nextIndex());
+                        System.out.println("forward index: " + listIterator.nextIndex());
                         if(listIterator.hasNext()){
-                            centralFrame.oneLabelUpOneLabelDown(listIterator.next());
+                            centralFrame.oneLabelUpOneLabelDown(listIterator.next(), false);
                             back = false;
                         }
                     }

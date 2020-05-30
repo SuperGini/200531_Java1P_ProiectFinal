@@ -48,9 +48,7 @@ public class CentralFrame extends JFrame {
     private JButton miniButton;
     private Timer timer5;
     private int count2;
-    private boolean setListIterator = true;
-    private boolean forward = false;
-    private boolean back = true;
+
 
     private int width = 1125;
     private int height = 750;
@@ -60,8 +58,6 @@ public class CentralFrame extends JFrame {
     private ScheduledExecutorService service;
     private Random random = new Random();
     private List<JLabel> backAndForwardList = new LinkedList<>();
-    private  ListIterator<JLabel> listIterator;
-
     private BackAndForward backAndForward = new BackAndForward();
 
 
@@ -151,7 +147,9 @@ public class CentralFrame extends JFrame {
 
     private void minimizeButton(){
         setExtendedState(JFrame.ICONIFIED);
-        log.createAuditLog("MINIMIZE PAGE");
+        if (PersonController.getInstance().getLoggedPerson() != null) {
+            log.createAuditLog("MINIMIZE PAGE");
+        }
     }
 
     private void initMenuBar(){
@@ -186,7 +184,7 @@ public class CentralFrame extends JFrame {
         homePage = new HomePage();
         backgroundLabel.add(homePage);
 
-        homePage.getAddFlight().addActionListener(e-> mainPageaddFlightButton());
+        homePage.getAddFlight().addActionListener(e-> mainPageAddFlightButton());
     }
 
     private void initMyAccountPage(){
@@ -240,6 +238,18 @@ public class CentralFrame extends JFrame {
         });
     }
 
+    public List<JLabel> getPages(){
+        pages = new ArrayList<>();
+        pages.add(loginPage);
+        pages.add(registerPage);
+        pages.add(homePage);
+        pages.add(addFlightsPage);
+        pages.add(myAccountPage);
+        pages.add(changePasswordPage);
+        pages.add(auditPage);
+        return pages;
+    }
+
     public void moveLoginRegisterPage(JLabel up){
         pages = getPages();
         for(JLabel page : pages){
@@ -253,74 +263,85 @@ public class CentralFrame extends JFrame {
 
     public Timer getTimer5(){
 
-        timer5 = new Timer(20, e -> {
-            count2++;
-            if(count2 == 1){
-                slideEfect.jLabelYDown(0,40,20,2,loginPage);
-            }
-            if(count2 == 22){
-                slideEfect.jLabelYUp(40,-1100,10,4, loginPage);
-                slideEfect.jLabelYUp(1100,0,10,4, homePage);
-                log.createAuditLog(loginPage.toString());
-                log.createAuditLog(homePage.toString());
-            }
-
-            if( count2 == 150){
-                slideEfect.jLabelYDown(-27,0,1,1,menuBarLabel);
-                timer5.stop();
-                count2 =0;
-            }
-        });
+        timer5 = new Timer(20, e -> startTimer5());
         return timer5;
     }
 
+    private void startTimer5(){
+        count2++;
+        if(count2 == 1){
+            slideEfect.jLabelYDown(0,40,20,2,loginPage);
+        }
+        if(count2 == 22){
+            slideEfect.jLabelYUp(40,-1100,10,4, loginPage);
+            slideEfect.jLabelYUp(1100,0,10,4, homePage);
+        }
+
+        if( count2 == 150){
+            slideEfect.jLabelYDown(-27,0,1,1,menuBarLabel);
+            timer5.stop();
+            count2 =0;
+        }
+    }
+
     public void moveTwoLabelsDown(JLabel down){
-        log.createAuditLog("LOGOUT");
         pages = getPages();
         for(JLabel page : pages){
-            if((page.getX() == 0) && (page != down)){
+            if((page.getY() == 0) && (page != down)){
                 slideEfect.jLabelYDown(0,1100,10,4, page);
                 slideEfect.jLabelYDown(-1100,0,10,4, down);
                 slideEfect.jLabelYUp(0,-27,1,1,menuBarLabel);
+                log.createAuditLog("LOGOUT");
+                backAndForward.setSetListIterator(true);
+                backAndForwardList.clear();
             }
         }
     }
 
-    public void oneLabelUpOneLabelDown(JLabel up){
+    public void oneLabelUpOneLabelDown(JLabel up, boolean addPage){
         pages = getPages();
         for(JLabel page : pages){
             if((page.getY() == 0) && (page != up)){
+
                 slideEfect.jLabelYDown(0,1100,10,4, page);
                 slideEfect.jLabelYUp(1100,0,10,4, up);
-                log.createAuditLog(up.toString());
+                addPageToBackButton(up, addPage);
             }
         }
     }
 
-    public List<JLabel> getPages(){
-        pages = new ArrayList<>();
-        pages.add(loginPage);
-        pages.add(registerPage);
-        pages.add(homePage);
-        pages.add(addFlightsPage);
-        pages.add(myAccountPage);
-        pages.add(changePasswordPage);
-        pages.add(auditPage);
-        return pages;
+    private void addPageToBackButton(JLabel page, boolean addPage){
+        if(addPage){
+
+            if(backAndForwardList.isEmpty()){
+                backAndForwardList.add(page);
+                log.createAuditLog(page.toString());
+
+            }else{
+
+                if(backAndForwardList.get(backAndForwardList.size() - 1) != page){
+                    backAndForwardList.add(page);
+                    backAndForward.setSetListIterator(true);
+                    log.createAuditLog(page.toString());
+                }else{
+                    backAndForward.setSetListIterator(true);
+                    log.createAuditLog(page.toString());
+                }
+            }
+        }
     }
+
+
 
     private void menuBarHomePage(){
         if(homePage.getY() == 1100){
-            oneLabelUpOneLabelDown(homePage);
-            addPageToBackButton(homePage);
+            oneLabelUpOneLabelDown(homePage, true);
         }
     }
 
     private void menuBarMyAccountPage(){
         if(myAccountPage.getY() == 1100){
-            oneLabelUpOneLabelDown(myAccountPage);
-            addPageToBackButton(myAccountPage);
-
+            oneLabelUpOneLabelDown(myAccountPage, true);
         }
     }
 
@@ -328,8 +349,6 @@ public class CentralFrame extends JFrame {
         if(loginPage.getY() == -1100){
             moveTwoLabelsDown(loginPage);
             backAndForwardList.clear();
-            backAndForward.setSetListIterator(true);
-        //    setListIterator = true;
         }
     }
 
@@ -337,8 +356,8 @@ public class CentralFrame extends JFrame {
         if(loginPage.validCredential()){
             getTimer5().start();
             new LogOutFunction().getLogOutTimer().start();
-            addPageToBackButton(loginPage);
-            addPageToBackButton(homePage);
+            addPageToBackButton(loginPage, true);
+            addPageToBackButton(homePage, true);
         }
     }
 
@@ -350,20 +369,17 @@ public class CentralFrame extends JFrame {
         }
     }
 
-    private void mainPageaddFlightButton(){
-        oneLabelUpOneLabelDown(addFlightsPage);
-        addPageToBackButton(addFlightsPage);
+    private void mainPageAddFlightButton(){
+        oneLabelUpOneLabelDown(addFlightsPage, true);
     }
 
     private void myAccoutPageChangePassButton(){
-        oneLabelUpOneLabelDown(changePasswordPage);
-        addPageToBackButton(changePasswordPage);
+        oneLabelUpOneLabelDown(changePasswordPage, true);
     }
 
     private void myAccountPageAuditPageButton(){
-        oneLabelUpOneLabelDown(auditPage);
+        oneLabelUpOneLabelDown(auditPage, true);
         auditPage.initAuditTableData();
-        addPageToBackButton(auditPage);
     }
 
     private void myAccountPageChangeEmailButton(){
@@ -394,8 +410,6 @@ public class CentralFrame extends JFrame {
             log.createAuditLog("CHANGED PASSWORD");
             moveTwoLabelsDown(loginPage);
             backAndForwardList.clear();
-            backAndForward.setSetListIterator(true);
-        //    setListIterator = true;
         }else{
             changePasswordPage.getPasswordField().setText("");
             changePasswordPage.getConfirmPasswordField().setText("");
@@ -404,8 +418,7 @@ public class CentralFrame extends JFrame {
 
     private void flightPageCancelButton(){
         addFlightsPage.resetFields();
-        oneLabelUpOneLabelDown(homePage);
-        addPageToBackButton(homePage);
+        oneLabelUpOneLabelDown(homePage, true);
     }
 
     private void flightPageAddFlightButton(){
@@ -414,8 +427,7 @@ public class CentralFrame extends JFrame {
             addFlightsPage.resetFields();
             homePage.tableData();
             log.createAuditLog("ADDED A FLIGHT");
-            oneLabelUpOneLabelDown(homePage);
-            addPageToBackButton(homePage);
+            oneLabelUpOneLabelDown(homePage, true);
         }
     }
 
@@ -423,83 +435,10 @@ public class CentralFrame extends JFrame {
         if (PersonController.getInstance().getLoggedPerson() != null) {
             log.createAuditLog("SHUTDOWN");
         }
-
         dispose();
         homePage.getService().shutdown();
         service.shutdown();
     }
-
-    private void addPageToBackButton(JLabel page){
-        backAndForwardList.add(page);
-        backAndForward.setSetListIterator(true);
-   //     setListIterator = true;
-    }
-
-    private void hatzInSpateHatzInFata(List<JLabel> list, String action){
-
-        if(!list.isEmpty()){
-            if(setListIterator){
-                listIterator = list.listIterator(list.size()-1);
-                setListIterator =false;
-            }
-
-            if(listIterator == list.listIterator(list.size()-1) ){
-                forward = false;
-            }
-
-            switch(action){
-
-                case "back":
-                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0) { // <- anti-spam button
-                        if (!back) {
-                            if (listIterator.hasPrevious()) {
-                                listIterator.previous();
-                                back = true;
-                            }
-                        }
-                    }
-
-                    if(!(listIterator.nextIndex() >= list.size())){
-
-                        if(loginPage.getY() !=0 && list.get(listIterator.nextIndex()).getY() == 0){ // <- anti-spam button
-                            if(listIterator.previousIndex() == 0){
-                                moveTwoLabelsDown(listIterator.previous());
-                                list.clear();
-                                setListIterator =true;
-                            }
-
-                            if(listIterator.hasPrevious()){
-                                oneLabelUpOneLabelDown(listIterator.previous());
-                                forward = true;
-                            }
-                        }
-                    }
-                    break;
-
-                case "forward":
-
-                    if(forward){
-                        if(loginPage.getY() !=0 && list.get(listIterator.nextIndex()).getY() == 0) { //<- anti-spam button
-
-                            if (listIterator.hasNext()) {
-                                listIterator.next();
-                                forward = false;
-                            }
-                        }
-                    }
-
-                    if(loginPage.getY() !=0 && list.get(listIterator.previousIndex()).getY() == 0){ // <- anti-spam button
-
-                        if(listIterator.hasNext()){
-                            oneLabelUpOneLabelDown(listIterator.next());
-                            back = false;
-                        }
-                    }
-                    break;
-            }
-        }
-    }
-
 
     private static final class SingletonHolder{
        public static final CentralFrame INSTANCE = new CentralFrame();
@@ -521,25 +460,11 @@ public class CentralFrame extends JFrame {
         this.backAndForwardList.clear();
     }
 
-    public void setSetListIterator(boolean setListIterator) {
-        this.setListIterator = setListIterator;
-    }
-
     public HomePage getHomePage() {
         return homePage;
-    }
-
-    public void setHomePage(HomePage homePage) {
-        this.homePage = homePage;
     }
 
     public MyAccountPage getMyAccountPage() {
         return myAccountPage;
     }
-
-    public void setMyAccountPage(MyAccountPage myAccountPage) {
-        this.myAccountPage = myAccountPage;
-    }
-
-
 }

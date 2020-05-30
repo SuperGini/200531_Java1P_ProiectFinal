@@ -37,10 +37,6 @@ public class Picture {
             e.printStackTrace();
         }
 
-
         return Collections.emptyList();
-
     }
-
-
 }
