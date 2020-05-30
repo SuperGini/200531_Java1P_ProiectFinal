@@ -47,7 +47,7 @@ public class MyAccountPage extends JLabel {
 
 
 
-    private void initTransparentPanel(){
+    public void initTransparentPanel(){
         transparentPanel = new TransparentPanel(100,175,900,420){
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
@@ -236,13 +236,13 @@ public class MyAccountPage extends JLabel {
         return changeEmailButton;
     }
 
-    private static final class SingletonHolder{
-        public static MyAccountPage INSTANCE = new MyAccountPage();
-    }
-
-    public static MyAccountPage getInstance(){
-        return SingletonHolder.INSTANCE;
-    }
+//    private static final class SingletonHolder{
+//        public static MyAccountPage INSTANCE = new MyAccountPage();
+//    }
+//
+//    public static MyAccountPage getInstance(){
+//        return SingletonHolder.INSTANCE;
+//    }
 
     @Override
     public String toString() {

@@ -3,6 +3,7 @@ package view.labels;
 import controller.PersonController;
 import models.Person;
 import util.MouseAction;
+import view.frames.CentralFrame;
 import view.panel.TransparentPanel;
 
 import javax.swing.*;
@@ -139,7 +140,7 @@ public class LoginPage extends JLabel {
     }
 
     private void myAccountUsernameAndEmail(String username, String emailAdress){
-        myAccountPage = MyAccountPage.getInstance();
+        myAccountPage = CentralFrame.getInstance().getMyAccountPage();
         myAccountPage.getChangeUsernameLabel().setText(username);
         myAccountPage.getChangeEmailLabel().setText(emailAdress);
     }

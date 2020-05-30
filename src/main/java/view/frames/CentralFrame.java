@@ -4,6 +4,7 @@ import AppPackage.AnimationClass;
 import controller.AuditController;
 import controller.PersonController;
 import media.Picture;
+import util.BackAndForward;
 import util.LogOutFunction;
 import view.buttons.MiniButtons;
 import view.labels.*;
@@ -60,6 +61,8 @@ public class CentralFrame extends JFrame {
     private Random random = new Random();
     private List<JLabel> backAndForwardList = new LinkedList<>();
     private  ListIterator<JLabel> listIterator;
+
+    private BackAndForward backAndForward = new BackAndForward();
 
 
 
@@ -140,8 +143,8 @@ public class CentralFrame extends JFrame {
         minimizeButtons.get(1).setToolTipText("forward");
         minimizeButtons.get(2).setToolTipText("minimize");
         minimizeButtons.get(3).setToolTipText("close");
-        minimizeButtons.get(0).addActionListener(e -> hatzInSpateHatzInFata(backAndForwardList, "back" ));
-        minimizeButtons.get(1).addActionListener( e-> hatzInSpateHatzInFata(backAndForwardList, "forward"));
+        minimizeButtons.get(0).addActionListener(e -> backAndForward.hatzInSpateHatzInFata(backAndForwardList, "back" ));
+        minimizeButtons.get(1).addActionListener( e-> backAndForward.hatzInSpateHatzInFata(backAndForwardList, "forward"));
         minimizeButtons.get(2).addActionListener(e -> minimizeButton() );
         minimizeButtons.get(3).addActionListener(e -> closeProgram());
     }
@@ -187,7 +190,7 @@ public class CentralFrame extends JFrame {
     }
 
     private void initMyAccountPage(){
-        myAccountPage = MyAccountPage.getInstance();
+        myAccountPage = new MyAccountPage();
         backgroundLabel.add(myAccountPage);
 
         myAccountPage.getChangePasswordButton().addActionListener( e-> myAccoutPageChangePassButton());
@@ -325,7 +328,8 @@ public class CentralFrame extends JFrame {
         if(loginPage.getY() == -1100){
             moveTwoLabelsDown(loginPage);
             backAndForwardList.clear();
-            setListIterator = true;
+            backAndForward.setSetListIterator(true);
+        //    setListIterator = true;
         }
     }
 
@@ -390,7 +394,8 @@ public class CentralFrame extends JFrame {
             log.createAuditLog("CHANGED PASSWORD");
             moveTwoLabelsDown(loginPage);
             backAndForwardList.clear();
-            setListIterator = true;
+            backAndForward.setSetListIterator(true);
+        //    setListIterator = true;
         }else{
             changePasswordPage.getPasswordField().setText("");
             changePasswordPage.getConfirmPasswordField().setText("");
@@ -426,7 +431,8 @@ public class CentralFrame extends JFrame {
 
     private void addPageToBackButton(JLabel page){
         backAndForwardList.add(page);
-        setListIterator = true;
+        backAndForward.setSetListIterator(true);
+   //     setListIterator = true;
     }
 
     private void hatzInSpateHatzInFata(List<JLabel> list, String action){
@@ -534,4 +540,6 @@ public class CentralFrame extends JFrame {
     public void setMyAccountPage(MyAccountPage myAccountPage) {
         this.myAccountPage = myAccountPage;
     }
+
+
 }
