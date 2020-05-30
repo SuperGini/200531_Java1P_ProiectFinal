@@ -124,16 +124,13 @@ public class ChangePasswordPage extends JLabel {
         person.ifPresent(value -> PersonController.getInstance().updatePassword(String.valueOf(passwordField.getPassword()), value.getUsername()));
     }
 
+    public void resetFields(){
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+    }
+
     public JButton getChangePassword() {
         return changePassword;
-    }
-
-    public JPasswordField getPasswordField() {
-        return passwordField;
-    }
-
-    public JPasswordField getConfirmPasswordField() {
-        return confirmPasswordField;
     }
 
     @Override

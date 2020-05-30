@@ -240,7 +240,7 @@ public class RegisterPage extends JLabel {
         }
     }
 
-    private void resetFields(){
+    public void resetFields(){
         usernameField.setText("");
         passwordField.setText("");
         confirmPasswordField.setText("");

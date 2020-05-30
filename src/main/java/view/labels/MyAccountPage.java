@@ -204,6 +204,11 @@ public class MyAccountPage extends JLabel {
         return pat.matcher(emailAdress).matches();
     }
 
+    public void resetFields(){
+        changeUsernameField.setText("");
+        changeEmailField.setText("");
+    }
+
     public JButton getChangePasswordButton() {
         return changePasswordButton;
     }
@@ -236,13 +241,6 @@ public class MyAccountPage extends JLabel {
         return changeEmailButton;
     }
 
-//    private static final class SingletonHolder{
-//        public static MyAccountPage INSTANCE = new MyAccountPage();
-//    }
-//
-//    public static MyAccountPage getInstance(){
-//        return SingletonHolder.INSTANCE;
-//    }
 
     @Override
     public String toString() {

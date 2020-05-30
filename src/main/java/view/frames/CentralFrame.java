@@ -169,16 +169,18 @@ public class CentralFrame extends JFrame {
         backgroundLabel.add(loginPage);
 
         loginPage.getLoginButton().addActionListener(e-> loginPageLoginButton());
-        loginPage.getRegisterButton().addActionListener(e -> moveLoginRegisterPage(loginPage));
+        loginPage.getRegisterButton().addActionListener(e -> registerButtonLoginPage());
     }
+
 
     private void initRegisterPage(){
         registerPage = new RegisterPage();
         backgroundLabel.add(registerPage);
 
         registerPage.getRegisterButton().addActionListener(e -> registerPageRegisterButton());
-        registerPage.getLoginButton().addActionListener(e -> moveLoginRegisterPage(registerPage));
+        registerPage.getLoginButton().addActionListener(e -> loginButtonRegisterPage());
     }
+
 
     private void initHomePage(){
         homePage = new HomePage();
@@ -306,6 +308,10 @@ public class CentralFrame extends JFrame {
                 slideEfect.jLabelYDown(0,1100,10,4, page);
                 slideEfect.jLabelYUp(1100,0,10,4, up);
                 addPageToBackButton(up, addPage);
+
+                if(page == changePasswordPage){
+                    changePasswordPage.resetFields();
+                }
             }
         }
     }
@@ -361,6 +367,11 @@ public class CentralFrame extends JFrame {
         }
     }
 
+    private void registerButtonLoginPage(){
+        moveLoginRegisterPage(loginPage);
+        loginPage.resetFields();
+    }
+
     private void registerPageRegisterButton(){
         if(registerPage.validRegisterFields()){
             registerPage.addUsername();
@@ -369,17 +380,24 @@ public class CentralFrame extends JFrame {
         }
     }
 
+    private void loginButtonRegisterPage(){
+        moveLoginRegisterPage(registerPage);
+        registerPage.resetFields();
+    }
+
     private void mainPageAddFlightButton(){
         oneLabelUpOneLabelDown(addFlightsPage, true);
     }
 
     private void myAccoutPageChangePassButton(){
         oneLabelUpOneLabelDown(changePasswordPage, true);
+        myAccountPage.resetFields();
     }
 
     private void myAccountPageAuditPageButton(){
         oneLabelUpOneLabelDown(auditPage, true);
         auditPage.initAuditTableData();
+        myAccountPage.resetFields();
     }
 
     private void myAccountPageChangeEmailButton(){
@@ -405,14 +423,12 @@ public class CentralFrame extends JFrame {
     private void changePasswordPageChangePasswordButton(){
         if(changePasswordPage.validPassword()){
             changePasswordPage.updatePassword();
-            changePasswordPage.getPasswordField().setText("");
-            changePasswordPage.getConfirmPasswordField().setText("");
+            changePasswordPage.resetFields();
             log.createAuditLog("CHANGED PASSWORD");
             moveTwoLabelsDown(loginPage);
             backAndForwardList.clear();
         }else{
-            changePasswordPage.getPasswordField().setText("");
-            changePasswordPage.getConfirmPasswordField().setText("");
+            changePasswordPage.resetFields();
         }
     }
 

@@ -145,7 +145,7 @@ public class LoginPage extends JLabel {
         myAccountPage.getChangeEmailLabel().setText(emailAdress);
     }
 
-    private void resetFields(){
+    public void resetFields(){
         usernameField.setText("");
         passwordField.setText("");
         usernameField.requestFocus();
