@@ -19,6 +19,7 @@ Programul este gandit in jurul acestor JLabel-uri care tin locul de JFrame-uri.
 Configurare baza de date:
 
 Nume baza de date:->>> proiect_final_java_1p
+     
 Baza de date contine 3 tabele: audit, flight, person.
 
 audit:  id: int -> primary key -> auto_increment
