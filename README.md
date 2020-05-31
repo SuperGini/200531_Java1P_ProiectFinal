@@ -59,5 +59,11 @@ flights:
         zile: varchar
 		
         pret: double
+	
+	WARNING! All the pictures, gifs and icons are used for educational purposes and not for comercial use. If you dont want me to
+	use them send mail to faraonu_ginitoru@yahoo.com and i will remove them!
+	
+	https://unsplash.com/s/photos/plane?orientation=landscape - images
+	http://www.pngall.com/
 
 
