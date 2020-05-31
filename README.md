@@ -22,7 +22,9 @@ Nume baza de date:->>> proiect_final_java_1p
      
 Baza de date contine 3 tabele: audit, flight, person.
 
-audit:  id: int -> primary key -> auto_increment
+audit:
+
+	id: int -> primary key -> auto_increment
 
         username: varchar
 	
@@ -32,17 +34,30 @@ audit:  id: int -> primary key -> auto_increment
 	
         person_id: foreign_key -> id-ul de la person
         
-person: id: -> int: primary key - > auto increment
+person:
+
+	id: -> int: primary key - > auto increment
+
         username: varchar
+	
         email_adress: varchar
+	
         password: varchar
 
-flights:  id: -> int: primary key -> auto_increment
-        	sursa: varchar
-        	destinatie: varchar
-	        oraPlecare: varchar
-        	oraSosire: varchar
-        	zile: varchar
-        	pret: double
+flights:
+
+	id: -> int: primary key -> auto_increment
+		
+        sursa: varchar
+		
+        destinatie: varchar
+		
+	oraPlecare: varchar
+		
+        oraSosire: varchar
+		
+        zile: varchar
+		
+        pret: double
 
 
