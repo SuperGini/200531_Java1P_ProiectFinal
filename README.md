@@ -1,26 +1,20 @@
-200531_Java1P_ProiectFinal
-Atentie! pentru ca programul sa functioneze trebuie sa folositi o biblioteca externa pe care o gasiti
-aici: https://spaces.hightail.com/receive/b2BMj
+# 200531_Java1P_ProiectFinal
 
-Programul “Proiect final Java 1P” se bazeaza in principal pe miscarea unor componente JLabel in interiorul si exeriorul unui JFrame Central. 
+Waring for the program to work you need to download this library: https://spaces.hightail.com/receive/b2BMj
 
-Programul se compune din 2 JFrame-uri principale:
+The idea behind the program is to move the JLabel components inside a central JFrame where the JLabels act like normal view pages.
+The database contains 3 tables: audit, flight, person. The requirments of the app are described in the Java 1 Professonal – proiect final.docx that are attached to this project.
 
-1.	LoadingFrame  - contine 2 JLabel- principale.
-1.	LoadingPage -> porneste la aparea butonului verde. Dupa aproximativ 10 secunde acest label sedeplaseaza in partea superioara lasand sa se vada StartPage-ul.
-2.	StartPage -> in functie de butonul pe care il selectam “login” sau “register page” ne va trimite catre pagina respective din CentralFrame.
-         2.  CentralFrame – contine 7 JLabel principale.
-1. LoginPage si RegisterPage – sunt pozitionate initial deasupra CentralFrame. In momentul in care     din StartPage e selectat login sau register page coboara JLabel-ul respective. Miscarea acestor label-uri se face cu ajutorul bibliotecii Animation class (vezi link la inceput).
-2. HomePage, AddFlightPage, MyAccountPage, ChangePasswordPage, AuditPage sunt pozitionate in partea inferioara a CentralFrame. In functie de butoanele selectate si in functie de cerintele programului acestea se misca in sus si in jos facandu-se astfel trecerea de la o pagina la alta.
+Database: MySql
+
+IDE: InteliJ IDEA
 
 
-Programul este gandit in jurul acestor JLabel-uri care tin locul de JFrame-uri.	
+Database config:
 
-Configurare baza de date:
-
-Nume baza de date:->>> proiect_final_java_1p
+database name:->>> proiect_final_java_1p
      
-Baza de date contine 3 tabele: audit, flight, person.
+Tables:
 
 audit:
 
@@ -60,8 +54,8 @@ flights:
 		
         pret: double
 	
-	WARNING! All the pictures, gifs and icons are used for educational purposes and not for comercial use. If you dont want me to
-	use them send mail to faraonu_ginitoru@yahoo.com and i will remove them!
+	WARNING! All the pictures, gifs and icons are used for educational purposes and not for comercial use. If you
+	don't want me to use them send mail to mihai.iordache82@gmail.com and i will remove them!
 	
 	https://unsplash.com/s/photos/plane?orientation=landscape - images
 	http://www.pngall.com/
